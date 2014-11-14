@@ -1,0 +1,82 @@
+﻿@using DigitalLibrary.Web.ViewModels.Work
+@model WorkPublicDetailsViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Model.Title</h2>
+<div class="row">
+    <div class="span4">
+        <div><strong>Author:</strong> @Model.AuthorName</div>
+        <div><strong>Year:</strong> @Model.Year </div>
+        <div><strong>Desctiption:</strong>@Model.Description</div>
+        <a class="btn btn-info hoover-pop" href="@Url.Action("DownLoad", "WorkPublic", new { @Model.Id })">
+            Download
+        </a>
+    </div>
+    <div class="span4">
+        <img src="@Url.Content("~/" + @Model.PictureLink)" class="img-responsive" style="width:300px" />
+    </div>
+
+</div>
+
+<div>
+    <div class="span10">
+        Likes:<strong id="work-votes">@Model.LikesCount</strong>
+    </div>
+    <br />
+    <br />
+    <div class="span3">
+        @if (User.Identity.IsAuthenticated)
+        {
+            @Ajax.ActionLink("Like", "Like", "LikePublic", new { id = Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "work-votes", HttpMethod = "Post", OnSuccess = "hideVoteUpButton" }, new { id = "vote-up-button", @class = "btn btn-default" })
+
+            @Ajax.ActionLink("Dislike", "Dislike", "LikePublic", new { id = Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "work-votes", HttpMethod = "Post", OnSuccess = "hideVoteDownButton" }, new { id = "vote-down-button", @class = "btn btn-default" })
+        }
+    </div>
+</div>
+<br />
+<div id="Comments">
+    @foreach (var comment in Model.Comments)
+    {
+        @Html.Partial("_CommentPartial", comment)
+    }
+
+</div>
+
+<div>
+    @if (User.Identity.IsAuthenticated)
+    {
+        using (Ajax.BeginForm("Create", "CommentPublic", new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "Comments", OnSuccess = "clearText" }))
+        {
+            @Html.Hidden("WorkId", Model.Id)
+            @Html.TextArea("Content", new { id = "comment-content-textarea" })
+            @Html.AntiForgeryToken()
+            <input type="submit" value="Submit comment" />
+        }
+     }
+   
+ </div>
+        @section scripts{
+            <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+            <script>
+
+        function clearText() {
+            $("#comment-content-textarea").val("");
+        }
+
+        function hideVoteUpButton() {
+            $("#vote-up-button").hide();
+            $("#vote-down-button").show();
+
+        }
+
+        function hideVoteDownButton() {
+            $("#vote-down-button").hide();
+            $("#vote-up-button").show();
+        }
+                
+       </script>
+        }
+

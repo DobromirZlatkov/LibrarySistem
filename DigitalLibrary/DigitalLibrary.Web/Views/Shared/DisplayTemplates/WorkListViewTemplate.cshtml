@@ -1,0 +1,27 @@
+﻿@using DigitalLibrary.Web.ViewModels.Work
+@model WorkPublicListViewModel
+@{
+    ViewBag.Title = "WorkListViewTemplate";
+    const string ControllerName = "WorkPublic";
+    const string AuthorControllerName = "AuthorPublic";
+}
+
+<div class="col-md-3 list-page-list home-page-list">
+    <a class="btn btn-info hoover-pop dowload-button" href="@Url.Action("DownLoad", ControllerName, new { @Model.Id })">
+        Download
+    </a>
+    <a class="btn btn-info width-fixed" href="@Url.Action("Details", ControllerName, new { @Model.Id })">
+        <h4>@Model.Title</h4>
+        <img src="@Url.Content("~/" + @Model.PictureLink)" class="list-work-picture" />
+    </a>
+    <div class="alert-success width-fixed">
+        <a class="btn" href="@Url.Action("Details", AuthorControllerName, new { @Model.AuthorId })">
+            @Model.AuthorName
+        </a>
+        @Model.Year .г
+    </div>
+    <div class="rating-container"><p class="rating-bar" style="width:@Model.LikesCount%"></p></div>
+    <div class="row"></div>
+</div>
+
+

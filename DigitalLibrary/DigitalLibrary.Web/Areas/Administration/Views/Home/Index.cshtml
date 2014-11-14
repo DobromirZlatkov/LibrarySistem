@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "Administration Area";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<ul id="admin-menu">
+<li>@Html.ActionLink("Home", "Index", "Home")</li>
+<li>@Html.ActionLink("Works", "Index", "Work")</li>
+<li>@Html.ActionLink("Comment", "Index", "Comment")</li>
+<li>@Html.ActionLink("Author", "Index", "Author")</li>
+<li>@Html.ActionLink("Genre", "Index", "Genre")</li>
+<li>@Html.ActionLink("User", "Index", "User")</li>
+</ul>
+
+
+<script>
+    $(document).ready(function() {
+        $("#admin-menu").kendoMenu();
+    });
+</script>

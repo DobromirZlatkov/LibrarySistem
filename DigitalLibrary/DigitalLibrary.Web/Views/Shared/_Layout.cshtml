@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/kendo")
+    @RenderSection("styles", required: false)
+    @Styles.Render("~/Content/custom")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.RouteLink("Home", "Default", new { action = "Index", controller = "Home" }, null)</li>
+                    <li>@Html.RouteLink("Works", "Default", new { action = "List", controller = "WorkPublic" }, null)</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.RouteLink("Upload", "Default", new { action = "Create", controller = "WorkPublic" }, null)</li>
+                        <li>@Html.RouteLink("TrustedUser", "Default", new { action = "List", controller = "TrustedUserWork" }, null)</li>
+                        <li>@Html.RouteLink("Admin route", "Admin", new { area = "Administration/Home", action = "Index", controller = "Home" }, null)</li>
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/kendo")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,44 @@
+﻿@using DigitalLibrary.Web.Areas.Administration.ViewModels.Works;
+@{
+    ViewBag.Title = "Work";
+    const string ControllerName = "Work";
+}
+
+<h2>@ViewBag.Title</h2>
+@(Html.Kendo()
+        .Grid<WorkViewModel>()
+        .Name("grid")
+        .Columns(cols =>
+        {
+            cols.Bound(pr => pr.Id).Width(20);
+            cols.Bound(pr => pr.Title).Width(20);
+            cols.Bound(pr => pr.Author).Width(20);
+            cols.Bound(pr => pr.Description).Width(20);
+            cols.Bound(pr => pr.Genre).Width(20);
+            cols.Bound(pr => pr.IsApproved).Width(5);
+            cols.Bound(pr => pr.PictureLink).Width(20);
+            cols.Bound(pr => pr.UploadedBy).Width(20);
+            cols.Bound(pr => pr.Year).Width(20);
+            cols.Bound(pr => pr.CreatedOn).Hidden();
+           // cols.Bound(pr => pr.ModifiedOn).Hidden();
+            cols.Command(com => com.Edit()).Title("Промяна");
+            cols.Command(com => com.Destroy()).Title("Изтриване");
+        })
+        .ColumnMenu()
+        .Pageable(page => page.Refresh(true))
+        .Sortable()
+        .Groupable()
+        .Filterable()
+        .Editable(edit => edit.Mode(GridEditMode.PopUp))
+        .ToolBar(toolbar => toolbar.Create())
+        .DataSource(data =>
+            data
+                .Ajax()
+                .Model(m => m.Id(adv => adv.Id))
+                .Read(read => read.Action("Read", ControllerName))
+                .Create(create => create.Action("Create", ControllerName))
+                .Update(update => update.Action("Update", ControllerName))
+                .Destroy(destroy => destroy.Action("Destroy", ControllerName))
+                ))
+
+
