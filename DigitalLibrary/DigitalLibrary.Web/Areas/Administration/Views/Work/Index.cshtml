@@ -1,4 +1,7 @@
 ﻿@using DigitalLibrary.Web.Areas.Administration.ViewModels.Works;
+@using DigitalLibrary.Web.Areas.Administration.ViewModels.Genres;
+@using DigitalLibrary.Web.Areas.Administration.ViewModels.Authors;
+@using DigitalLibrary.Models
 @{
     ViewBag.Title = "Work";
     const string ControllerName = "Work";
@@ -16,11 +19,11 @@
             cols.Bound(pr => pr.Description).Width(20);
             cols.Bound(pr => pr.Genre).Width(20);
             cols.Bound(pr => pr.IsApproved).Width(5);
-            cols.Bound(pr => pr.PictureLink).Width(20);
+            cols.Bound(pr => pr.PictureLink).HtmlAttributes(new { @class = "tr-width-200" }).Width(20);
             cols.Bound(pr => pr.UploadedBy).Width(20);
             cols.Bound(pr => pr.Year).Width(20);
             cols.Bound(pr => pr.CreatedOn).Hidden();
-           // cols.Bound(pr => pr.ModifiedOn).Hidden();
+            cols.Bound(pr => pr.ModifiedOn).Hidden();
             cols.Command(com => com.Edit()).Title("Промяна");
             cols.Command(com => com.Destroy()).Title("Изтриване");
         })
@@ -30,15 +33,22 @@
         .Groupable()
         .Filterable()
         .Editable(edit => edit.Mode(GridEditMode.PopUp))
-        .ToolBar(toolbar => toolbar.Create())
         .DataSource(data =>
             data
                 .Ajax()
-                .Model(m => m.Id(adv => adv.Id))
-                .Read(read => read.Action("Read", ControllerName))
-                .Create(create => create.Action("Create", ControllerName))
+                .Model(m =>
+                     {
+                        m.Id(adv => adv.Id);  
+                    })
+                .Read(read => read.Action("Read", ControllerName))   
                 .Update(update => update.Action("Update", ControllerName))
                 .Destroy(destroy => destroy.Action("Destroy", ControllerName))
-                ))
+                )
+            )
 
+<script type="text/javascript">
+ 
+    $("table").find('tr').addClass("table-row-size");
+
+</script>
 

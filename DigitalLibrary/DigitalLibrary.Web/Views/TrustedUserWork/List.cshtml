@@ -5,27 +5,33 @@
 }
 
 @(Html.Kendo()
-.Grid<WorkPublicListViewModel>() // Bind the grid to the Model property of the view
+.Grid<WorkPublicListViewModel>()
       .Name("Grid")
       .Columns(columns =>
       {
-
           columns.Bound(p => p.Id).ClientTemplate("<h2><a href='" + @Url.Action("Details", WorkPublicControllerName) + "/#: Id #" + "'>#:Title#</a><h2>").Title("Title");
           columns.Bound(p => p.PictureLink).ClientTemplate("<img src='/#: PictureLink #' class='img-responsive'/>").Title("Image").Width(120);
           columns.Bound(p => p.AuthorName).Width(30);
           columns.Bound(p => p.Year).Width(30);
+          columns.Bound(p => p.IsApproved).Width(30);
           columns.Bound(p => p.ZipFileLink).ClientTemplate("<h2><a class='btn btn-info' href='" + @Url.Action("Download", WorkPublicControllerName) + "/#: Id #" + "'>Download</a><h2>").Title("Download").Width(30);
-          columns.Bound(p => p.Id).ClientTemplate("<h2><a class='btn btn-success' href='" + @Url.Action("Approove", ControllerName) + "/#: Id #" + "'>Approove</a><h2>").Title("Approove").Width(30);
-          columns.Command(com => com.Destroy()).Title("Delete");
+          columns.Command(com => com.Destroy());
+          columns.Command(com => com.Edit());
       })
      .Pageable(page => page.Refresh(true))
+     .Editable(edit => edit.Mode(GridEditMode.InLine))
      .Sortable()
      .Groupable()
      .DataSource(data =>
             data
                 .Ajax()
-                .Model(m => m.Id(work => work.Id))
+                .Model(m => 
+                {
+                    m.Id(work => work.Id);
+                })
                 .Read(read => read.Action("Read", ControllerName))
-                .Destroy(destr => destr.Action("Delete", ControllerName))
-                )
+                .Destroy(destr => destr.Action("Destroy", ControllerName))
+                .Update(mod => mod.Action("Update", ControllerName))
+               )
+            
 )

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 
-namespace DigitalLibrary.Web.Areas.Administration.ViewModels.Author
+namespace DigitalLibrary.Web.Areas.Administration.ViewModels.Authors
 {
     public class SimpleViewModel : IMapFrom<AuthorViewModel>
     {

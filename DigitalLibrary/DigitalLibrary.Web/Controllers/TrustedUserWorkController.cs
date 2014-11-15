@@ -1,24 +1,19 @@
-﻿using DigitalLibrary.Data;
-using DigitalLibrary.Data.Logic;
-using DigitalLibrary.Web.ViewModels;
-using DigitalLibrary.Web.ViewModels.Work;
-using Kendo.Mvc;
-using Kendo.Mvc.UI;
-using Kendo.Mvc.Infrastructure;
-using Kendo.Mvc.Extensions;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
-namespace DigitalLibrary.Web.Controllers
+﻿namespace DigitalLibrary.Web.Controllers
 {
+    using System.Collections;
+    using System.Linq;
+    using System.Web.Mvc;
 
+    using Kendo.Mvc.UI;
+
+    using DigitalLibrary.Data;
+    using DigitalLibrary.Data.Logic;
+    using DigitalLibrary.Models;
+    using DigitalLibrary.Web.Areas.Administration.Controllers.Base;
+    using DigitalLibrary.Web.ViewModels.Work;
 
     // [Authorize(Roles = "trusted")]
-    public class TrustedUserWorkController : BaseController
+    public class TrustedUserWorkController : KendoGridAdministrationController
     {
         private const int TrustedRoleNeededRating = 70;
         private const int MinimumPositiveUploadsToBecomeTrusted = 3;
@@ -33,29 +28,10 @@ namespace DigitalLibrary.Web.Controllers
             return this.View();
         }
 
-
-        public IQueryable<WorkPublicListViewModel> GetAllUnApprovedWorks()
+        [HttpPost]
+        public ActionResult Update([DataSourceRequest]DataSourceRequest request, WorkPublicListViewModel model)
         {
-            var unApprovedWorks = this.Data.Works
-                .All()
-                .Where(w => !w.IsApproved)
-                .Select(WorkPublicListViewModel.FromWork);
-
-            return unApprovedWorks;
-        }
-
-        public ActionResult Read([DataSourceRequest]DataSourceRequest request)
-        {
-            var data = this.GetAllUnApprovedWorks()
-                .ToDataSourceResult(request);
-
-            return this.Json(data, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult Approove(int id)
-        {
-
-            var workToBeApprooved = this.Data.Works.GetById(id);
+            var workToBeApprooved = this.GetById<Work>(model.Id);
             var uploadedBy = workToBeApprooved.UploadedBy;
 
             uploadedBy.PositiveUploads++;
@@ -69,37 +45,41 @@ namespace DigitalLibrary.Web.Controllers
                 this.IdentityManager.AddUserToRole(uploadedBy.Id, "trusted");
             }
 
-            Response.Redirect("~/TrustedUserWork/List");
-            return this.View("List");
+            return this.GridOperation(model, request);
         }
 
-        public ActionResult Delete([DataSourceRequest]DataSourceRequest request, WorkPublicListViewModel model)
+        public ActionResult Destroy([DataSourceRequest]DataSourceRequest request, WorkPublicListViewModel model)
         {
-            if (model != null && ModelState.IsValid)
+            var workToBeDeleted = this.GetById<Work>(model.Id);
+            var uploadedBy = workToBeDeleted.UploadedBy;
+
+            uploadedBy.NegativeUploads++;
+
+            base.Destroy<Work>(model.Id);
+
+            FileManager.DeleteFile(workToBeDeleted.ZipFileLink);
+
+            if (uploadedBy.Rating < TrustedRoleNeededRating)
             {
-                var workToBeDeleted = this.Data.Works.GetById(model.Id);
-
-                var uploadedBy = workToBeDeleted.UploadedBy;
-                uploadedBy.NegativeUploads++;
-
-                this.Data.Works.Delete(workToBeDeleted);
-                this.Data.SaveChanges();
-
-                var folders = workToBeDeleted.ZipFileLink.Split('/').ToList();
-
-                folders.RemoveAt(folders.Count - 1);
-
-                var filePath = string.Join("/",folders);
-
-                FileManager.DeleteFile(filePath);
-
-                if (uploadedBy.Rating < TrustedRoleNeededRating)
-                {
-                    this.IdentityManager.ClearUserRoles(uploadedBy.Id, "trusted");
-                }
+                this.IdentityManager.ClearUserRoles(uploadedBy.Id, "trusted");
             }
 
-            return this.Json(new[] { model }.ToDataSourceResult(request, ModelState));
+            return this.GridOperation(model, request);
+        }
+
+        protected override IEnumerable GetData()
+        {
+            var unApprovedWorks = this.Data.Works
+                .All()
+                .Where(w => !w.IsApproved)
+                .Select(WorkPublicListViewModel.FromWork);
+
+            return unApprovedWorks;
+        }
+
+        protected override T GetById<T>(object id)
+        {
+            return this.Data.Works.GetById(id) as T;
         }
     }
 }

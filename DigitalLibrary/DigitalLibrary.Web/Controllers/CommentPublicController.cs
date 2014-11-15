@@ -1,22 +1,23 @@
-﻿using DigitalLibrary.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using DigitalLibrary.Models;
-using DigitalLibrary.Web.ViewModels.Comment;
-using System.Net;
-
-namespace DigitalLibrary.Web.Controllers
+﻿namespace DigitalLibrary.Web.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Net;
+    using System.Web.Mvc;
 
+    using Microsoft.AspNet.Identity;
+
+    using DigitalLibrary.Data;
+    using DigitalLibrary.Models;
+    using DigitalLibrary.Web.ViewModels.Comment;
+
+    [Authorize]
     public class CommentPublicController : BaseController
     {
         public CommentPublicController(IDigitalLibraryData data)
             : base(data)
         {
+
         }
 
         [Authorize]
@@ -25,8 +26,8 @@ namespace DigitalLibrary.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var username = this.User.Identity.GetUserName();
-                var userId = this.User.Identity.GetUserId();
+                var username = this.CurrentUser.UserName;
+                var userId = this.CurrentUser.Id;
 
                 this.Data.Comments.Add(new Comment()
                 {
@@ -37,7 +38,6 @@ namespace DigitalLibrary.Web.Controllers
                 });
 
                 this.Data.SaveChanges();
-
 
                 var viewModel = new CommentPublicViewModel { PostedBy = username, Content = commentModel.Content };
 

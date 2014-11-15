@@ -16,10 +16,24 @@ namespace DigitalLibrary.Data.Logic
     {
 
         public static void DeleteFile(string path)
-        {   
-            var fullPath = HttpContext.Current.Server.MapPath("~/" + path);
+        {
+            var folders = path.Split('\\').ToList();
+
+            folders.RemoveAt(folders.Count - 1);
+
+            var filePath = string.Join("/", folders);
+
+            var fullPath = HttpContext.Current.Server.MapPath("~/" + filePath);
+
             var dir = new DirectoryInfo(fullPath);
-            dir.Delete(true);
+
+            if (folders.Count > 4)
+            {
+                if (dir != null)
+                {
+                    dir.Delete(true);
+                }
+            }
         }
 
 
@@ -92,6 +106,18 @@ namespace DigitalLibrary.Data.Logic
             }
 
             return false;
+        }
+
+        public static bool CheckIfFile(HttpPostedFileBase file)
+        {
+            if (file != null)
+	        {
+                return true;
+	        }
+            else
+            {
+                return false;
+            }
         }
 
         public static bool CheckIfFileIsZipped(HttpPostedFileBase file)

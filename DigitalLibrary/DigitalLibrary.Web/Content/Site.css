@@ -25,8 +25,8 @@ textarea {
 .home-page-line-container{
     width: 1000px;
     height:363px;
-    overflow-x:scroll;
-    overflow-y:hidden;
+    overflow-x: auto;
+    overflow-y:scroll;
       border:10px solid;
       border-top-color:#856036;
   border-left-color:#5d4426;
@@ -52,6 +52,37 @@ textarea {
 .width-fixed{
     width:190px;
 }
-.home-page-line-container{
-
+body{
+    background:url("../Images/library-basement.jpg") no-repeat center center fixed;
+}
+.control-label{
+    color:white;
+}
+h2, h3, h4, footer, h1, p, div{
+    color:white;
+}
+.jumbotron{
+    background : rgba(30, 27, 27, 0.5)
+}
+.comment{
+    color:black;
+}
+.rating-container{
+    border: 1px solid white;
+    width:90%;
+}
+.rating-bar{
+    width:100%;
+    background:red;
+}
+.bolder{
+    font-weight:bolder;
+    font-size:36px;
+}
+.tr-width-200{
+    width:30px;
+}
+.container body-content{
+    width:100%;
+    margin:0;
 }

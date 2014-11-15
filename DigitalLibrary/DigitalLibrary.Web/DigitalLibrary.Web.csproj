@@ -197,10 +197,11 @@
     <Compile Include="Areas\Administration\ViewModels\Comment\CommentViewModel.cs" />
     <Compile Include="Areas\Administration\ViewModels\Genre\GenreViewModel.cs" />
     <Compile Include="Areas\Administration\ViewModels\User\UserViewModel.cs" />
+    <Compile Include="Areas\Administration\ViewModels\Work\WorkEditModel.cs" />
     <Compile Include="Areas\Administration\ViewModels\Work\WorkViewModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
-    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\Base\BaseController.cs" />
     <Compile Include="Controllers\CommentPublicController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LikePublicController.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="ViewModels\Genre\GenrePublicViewModel.cs" />
     <Compile Include="ViewModels\Home\HomePageModel.cs" />
     <Compile Include="ViewModels\Home\HomePageStatisticsModel.cs" />
+    <Compile Include="ViewModels\Like\LikeSubmitModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -456,6 +458,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\back.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Administration\Views\web.config" />

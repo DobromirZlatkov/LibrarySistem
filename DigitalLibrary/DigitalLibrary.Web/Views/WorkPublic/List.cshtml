@@ -2,30 +2,31 @@
 @{
     ViewBag.Title = "List";
     var currentYear = DateTime.Now.Year;
+    const string ControllerName = "WorkPublic";
 }
 
 <div class="row-fluid">
     @using (Html.BeginForm("Search", "WorkPublic", FormMethod.Post))
     {
-        <div>
+        <div class="control-label">
             Search by Model
         </div>
         @(Html.Kendo()
             .AutoComplete()
-            .Name("authorsearch")
+                .Name("MatchSearch")
             .DataTextField("MatchResult")
             .MinLength(1)
             .DataSource(data =>
             {
                 data.Read(read =>
                     {
-                        read.Action("GetWorkData", "Work")
+                        read.Action("GetWorkData", ControllerName)
                             .Data("onAdditionalData");
                     })
                     .ServerFiltering(true);
             }))
         <br />
-        <div>
+        <div class="control-label">
             Search by Genre
         </div>
         @(Html.Kendo()
@@ -41,9 +42,9 @@
             }))
 
         <br />
-        <div>
-            Search by Year
-        </div>
+    <div class="control-label">
+        Search by Year
+    </div>
         @(Html.Kendo()
         .NumericTextBox()
         .Name("pricesearch")
@@ -63,7 +64,7 @@
     .Name("work")
     .TagName("div")
     .ClientTemplateId("work-template")
-    .Pageable()
+    .Pageable()    
     .DataSource(data =>
     {
         data.Read("GetWorks", "WorkPublic");
@@ -74,17 +75,18 @@
 <script id="work-template" type="text/x-kendo-template">
 
     <div class="col-lg-4 list-page-list home-page-list">
-        <a class="btn btn-info hoover-pop dowload-button" href="/WorkPublic/Download/#: Id #">
+        <a class="btn btn-info width-fixed dowload-button" href="/WorkPublic/Download/#: Id #">
             Download
         </a>
-        <a class="btn btn-info hoover-pop" href="/WorkPublic/Details/#: Id #">
+        <a class="btn btn-info width-fixed" href="/WorkPublic/Details/#: Id #">
             <h4>#: Title #</h4>
             <img src="/${PictureLink}" class="list-work-picture" />
         </a>
-        <a class="btn" href="/AuthorPublic/Details/#: AuthorId #">
+        <a class="alert-success width-fixed" href="/AuthorPublic/Details/#: AuthorId #">
             #: AuthorName #
+            #: Year #
         </a>
-        #: Year #
+   
         <div class="rating-container"><p class="rating-bar" style="width:#: LikesCount #%"></p></div>
         <div class="row"></div>
     </div>
@@ -93,7 +95,7 @@
 <script>
     function onAdditionalData() {
         return {
-            text: $('#modelsearch').val()
+            text: $('#MatchSearch').val()
         };
     }
 </script>

@@ -11,16 +11,19 @@
 
     <div id="list-top-users">
         <h3>Top ten rated users</h3>
-        @foreach (var user in @Model.TopUsers)
+        @if (@Model.TopUsers != null)
         {
-            @Html.DisplayFor(m => user, "UserListViewTemplate")
+            foreach (var user in @Model.TopUsers)
+            {
+                @Html.DisplayFor(m => user, "UserListViewTemplate")
+            }
         }
     </div>
 </div>
 <div class="row">
     <div class="paddle page_left carousel_prev" data-track="carousel:previous"><div class="paddle_sprite paddle_left_sprite"></div></div>
     <div class="col-lg-11">
-        <h3>Most Popular Works</h3>
+        <h3 class="bolder">Most Popular Works</h3>
         <div id="most-popupar-works-container" class="home-page-line-container">
             @foreach (var work in @Model.MostPopularWorks)
             {
@@ -34,7 +37,7 @@
         @foreach (var genre in @Model.GenreBooks)
         {
             <a href="@Url.Action("Details", "Genre", new { @genre.Id })">
-                <h3>@genre.GenreName</h3>
+                <h3 class="bolder">@genre.GenreName</h3>
             </a>
             <div class="home-page-line-container">
                 <a href="@Url.Action("Details", "Genre", new { @genre.Id })">

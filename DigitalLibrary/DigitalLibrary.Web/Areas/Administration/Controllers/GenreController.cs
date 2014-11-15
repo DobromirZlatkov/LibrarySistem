@@ -57,32 +57,19 @@
         [HttpPost]
         public ActionResult Destroy([DataSourceRequest]DataSourceRequest request, ViewModel model)
         {
+            var genre = this.Data.Genres.GetById(model.Id.Value);
+
+            foreach (var work in genre.Works)
+            {
+                foreach (var comment in work.Comments)
+                {
+                     base.Destroy<Comment>(comment.Id);
+                }
+                base.Destroy<Work>(work.Id);
+            }
+
             base.Destroy<Model>(model.Id);
             return this.GridOperation(model, request);
         }
-
-        //[HttpPost]
-        //public ActionResult Destroy([DataSourceRequest]DataSourceRequest request, ViewModel model)
-        //{
-        //    if (model != null)
-        //    {
-        //        var genre = this.Data.Genres.GetById(model.Id.Value);
-
-        //        foreach (var work in genre.Works)
-        //        {
-        //            foreach (var comment in work.Comments)
-        //            {
-        //                this.Data.Comments.Delete(comment.Id);
-        //            }
-
-        //            this.Data.Works.Delete(work.Id);
-        //        }
-
-        //        this.Data.Genres.Delete(model.Id.Value);
-        //        this.Data.SaveChanges();
-        //    }
-
-        //    return this.GridOperation(model, request);
-        //}
     }
 }

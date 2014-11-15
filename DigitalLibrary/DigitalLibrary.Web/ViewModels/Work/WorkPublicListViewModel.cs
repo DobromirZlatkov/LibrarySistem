@@ -8,6 +8,7 @@
     using System.IO;
 
     using DigitalLibrary.Models;
+    using System.ComponentModel.DataAnnotations;
    
 
     public class WorkPublicListViewModel
@@ -27,28 +28,43 @@
                     AuthorId = w.AuthorId,
                     PositiveLikes = w.Likes.Count(l => l.IsPositive),
                     NegativeLikes = w.Likes.Count(l => !l.IsPositive),
+                    IsApproved = w.IsApproved
                 };
             }
         }
 
+        [Editable(false)]
         public int Id { get; set; }
 
+        [Editable(false)]
         public string Title { get; set; }
 
+        [Editable(false)]
         public int Year { get; set; }
 
+        [Editable(false)]
         public string ZipFileLink { get; set; }
 
+        [Editable(false)]
         public string PictureLink { get; set; }
 
+        [Editable(false)]
         public string AuthorName { get; set; }
 
+        [Editable(false)]
         public int AuthorId { get; set; }
 
+        [Editable(true)]
+        public bool IsApproved { get; set; }
+
+        [Editable(false)]
         private int PositiveLikes { get; set; }
 
+        [Editable(false)]
         private int NegativeLikes { get; set; }
 
+
+        [Editable(false)]
         public int LikesCount
         {
             get

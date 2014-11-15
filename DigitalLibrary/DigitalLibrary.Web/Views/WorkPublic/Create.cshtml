@@ -5,24 +5,22 @@
     const string ControllerName = "WorkPublic";
     const string AuthorController = "Author";
 }
-
 @{
     var currentYear = DateTime.Now.Year;
 }
-
-@using (Html.BeginForm("Upload", "WorkPublic", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Upload", ControllerName, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <div>
         @Html.LabelFor(m => m.Title, "Title: ", new { id = "title-input" })
-        @Html.EditorFor(m => m.Title)
+        @Html.EditorFor(m => m.Title, new { @class = "input-small" })
         @Html.ValidationMessageFor(m => m.Title, String.Empty, new { @class = "help-inline", @style = "color:red" })
     </div>
     <div>
         @Html.LabelFor(m => m.Description, "Description: ")
-        @Html.TextArea("Description")
+        @Html.TextArea("Description", new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Description, String.Empty, new { @class = "help-inline", @style = "color:red" })
     </div>
     <div>
@@ -38,30 +36,25 @@
         @Html.LabelFor(m => m.Author, "Author name: ")
         @Html.DropDownList("Author");
     </div>
-
-
     <div>
-        Select Work Picture :<input type="file" name="files" accept=".jpeg , .jpg, .png" />
+        Select Work Picture :<input type="file" name="files" accept=".jpeg , .jpg, .png" id="file-picture" />
         Select Work ZipFile :<input type="file" name="files" accept=".zip , .rar" />
     </div>
-
     <div>
-        <input type="submit" name="upload" />
+        <input type="submit" name="upload" id="upload-file"/>
     </div>
 }
-
-
 <div>
     <input type="button" name="show-createAuthor-form" class="btn-sm" id="show-createAuthor-form" value="Add new Author" />
 </div>
 
 <div id="createauthor-form" style="display:none">
-    @using (Ajax.BeginForm("Create", AuthorController, new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "test" }))
+    @using (Ajax.BeginForm("Create", AuthorController, new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "authors-dropdown-container" }))
     {
         <h3>Create author</h3>
         <div>
             @Html.Label("Author Name")
-            @Html.Editor("AuthorName")
+            @Html.Editor("Name")
         </div>
 
         @Html.AntiForgeryToken()
@@ -84,6 +77,18 @@
             }
         })
     }())
+
+    $("#upload-file").click(function () {
+        var fileName = $("#file-picture").val();
+        if ((fileName.lastIndexOf("png") === fileName.length - 3) 
+            || (fileName.lastIndexOf("jpg") === fileName.length - 3)
+            || (fileName.lastIndexOf("jpeg") === fileName.length - 4)) {
+           
+        }
+        else {
+            alert("Not PNG");
+        }
+    })
 </script>
 
 

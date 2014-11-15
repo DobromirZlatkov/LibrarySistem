@@ -75,6 +75,17 @@
                 this.Data.Authors.Delete(model.Id.Value);
                 this.Data.SaveChanges();
             }
+            //var author = this.Data.Authors.GetById(model.Id.Value);
+
+            //foreach (var work in author.Works)
+            //{
+            //    foreach (var comment in work.Comments)
+            //    {
+            //        base.Destroy<Comment>(comment.Id);
+            //    }
+            //    base.Destroy<Work>(work.Id);
+            //}
+            //base.Destroy<Model>(model.Id);
 
             return this.GridOperation(model, request);
         }

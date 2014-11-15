@@ -1,9 +1,10 @@
-﻿namespace DigitalLibrary.Web.ViewModels.Author
+﻿namespace DigitalLibrary.Web.ViewModels.Authors
 {
     using System;
     using System.Linq.Expressions;
 
     using DigitalLibrary.Models;
+    using DigitalLibrary.Web.Infrastructure.Mapping;
 
     public class AuthorPublicListViewModel
     {

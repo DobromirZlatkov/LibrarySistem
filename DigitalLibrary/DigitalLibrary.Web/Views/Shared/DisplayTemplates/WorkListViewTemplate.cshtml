@@ -4,6 +4,7 @@
     ViewBag.Title = "WorkListViewTemplate";
     const string ControllerName = "WorkPublic";
     const string AuthorControllerName = "AuthorPublic";
+    var Rating = Model.LikesCount * 10;
 }
 
 <div class="col-md-3 list-page-list home-page-list">
@@ -17,10 +18,11 @@
     <div class="alert-success width-fixed">
         <a class="btn" href="@Url.Action("Details", AuthorControllerName, new { @Model.AuthorId })">
             @Model.AuthorName
+          
         </a>
         @Model.Year .г
     </div>
-    <div class="rating-container"><p class="rating-bar" style="width:@Model.LikesCount%"></p></div>
+    <div class="rating-container"><p class="rating-bar" style="width:@Rating%"></p></div>
     <div class="row"></div>
 </div>
 

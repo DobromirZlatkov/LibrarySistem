@@ -54,7 +54,7 @@
             where TModel : AuditInfo
             where TViewModel : AdministrationViewModel
         {
-            if (model != null/*  && ModelState.IsValid*/)// DateTime Parse Er
+            if (model != null  && ModelState.IsValid)// DateTime Parse Er
             {
                 var dbModel = this.GetById<TModel>(id);
                 Mapper.Map<TViewModel, TModel>(model, dbModel);
@@ -66,12 +66,7 @@
         [NonAction]
         protected virtual void Destroy<T>(object id) where T : class
         {
-            //var errors = ModelState
-            //    .Where(x => x.Value.Errors.Count > 0)
-            //    .Select(x => new { x.Key, x.Value.Errors })
-            //    .ToArray();
-
-            if (id != null)
+            if (id != null && ModelState.IsValid)
             {
                 var dbModel = this.GetById<T>(id);
                 this.ChangeEntityStateAndSave(dbModel, EntityState.Deleted);
@@ -85,9 +80,12 @@
 
         private void ChangeEntityStateAndSave(object dbModel, EntityState state)
         {
-            var entry = this.Data.Context.Entry(dbModel);
-            entry.State = state;
-            this.Data.SaveChanges();
+            if (dbModel != null)
+            {
+                var entry = this.Data.Context.Entry(dbModel);
+                entry.State = state;
+                this.Data.SaveChanges();
+            }
         }
     }
 }

@@ -37,11 +37,22 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    <div class="container body-content" id="body">
+        @if (TempData["success"] != null)
+        {
+            <div class="alert alert-success">@TempData["success"]</div>
+            TempData["success"] = null;
+        }
+        @if (TempData["error"] != null)
+        {
+            <div class="alert-danger alert">@TempData["error"]</div>
+            TempData["error"] = null;
+        }
+
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p class="text-center">&copy; @DateTime.Now.Year - Digital Library -,.-</p>
         </footer>
     </div>
 

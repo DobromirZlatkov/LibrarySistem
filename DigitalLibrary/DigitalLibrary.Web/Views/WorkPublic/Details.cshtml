@@ -11,7 +11,7 @@
         <div><strong>Author:</strong> @Model.AuthorName</div>
         <div><strong>Year:</strong> @Model.Year </div>
         <div><strong>Desctiption:</strong>@Model.Description</div>
-        <a class="btn btn-info hoover-pop" href="@Url.Action("DownLoad", "WorkPublic", new { @Model.Id })">
+        <a class="btn btn-info hoover-pop dowload-button" href="@Url.Action("DownLoad", "WorkPublic", new { @Model.Id })">
             Download
         </a>
     </div>
@@ -30,9 +30,8 @@
     <div class="span3">
         @if (User.Identity.IsAuthenticated)
         {
-            @Ajax.ActionLink("Like", "Like", "LikePublic", new { id = Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "work-votes", HttpMethod = "Post", OnSuccess = "hideVoteUpButton" }, new { id = "vote-up-button", @class = "btn btn-default" })
-
-            @Ajax.ActionLink("Dislike", "Dislike", "LikePublic", new { id = Model.Id }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "work-votes", HttpMethod = "Post", OnSuccess = "hideVoteDownButton" }, new { id = "vote-down-button", @class = "btn btn-default" })
+            @Ajax.ActionLink("Like", "Action", "LikePublic", new { WorkId = Model.Id, LikeState = "like" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "work-votes", HttpMethod = "Post", OnSuccess = "hideVoteUpButton" }, new { id = "vote-up-button", @class = "btn btn-default" })
+            @Ajax.ActionLink("Dislike", "Action", "LikePublic", new { WorkId = Model.Id, LikeState = "dislike" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "work-votes", HttpMethod = "Post", OnSuccess = "hideVoteDownButton" }, new { id = "vote-down-button", @class = "btn btn-default" })
         }
     </div>
 </div>
@@ -48,19 +47,21 @@
 <div>
     @if (User.Identity.IsAuthenticated)
     {
-        using (Ajax.BeginForm("Create", "CommentPublic", new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "Comments", OnSuccess = "clearText" }))
+        using (Ajax.BeginForm("Create", "CommentPublic", new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "Comments", OnSuccess = "clearText", OnFailure = "commentPostFailure" }))
         {
             @Html.Hidden("WorkId", Model.Id)
-            @Html.TextArea("Content", new { id = "comment-content-textarea" })
+            @Html.TextArea("Content", new { id = "comment-content-textarea", @class = "form-control"})
             @Html.AntiForgeryToken()
-            <input type="submit" value="Submit comment" />
+            <input type="submit" value="Submit comment" class="btn btn-primary"  />
         }
-     }
-   
- </div>
-        @section scripts{
-            <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
-            <script>
+    }
+
+</div>
+@section scripts{
+    <script>
+        function commentPostFailure() {
+            alert("Error");
+        }
 
         function clearText() {
             $("#comment-content-textarea").val("");
@@ -76,7 +77,6 @@
             $("#vote-down-button").hide();
             $("#vote-up-button").show();
         }
-                
-       </script>
-        }
+    </script>
+}
 

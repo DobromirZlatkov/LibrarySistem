@@ -9,27 +9,32 @@
 
     using Microsoft.AspNet.Identity;
 
+    using Model = DigitalLibrary.Models.Work;
+    using ListViewModel = DigitalLibrary.Web.ViewModels.Work.WorkPublicListViewModel;
+    using DetailsViewModel = DigitalLibrary.Web.ViewModels.Work.WorkPublicDetailsViewModel;
+    using CreateViewModel = DigitalLibrary.Web.ViewModels.Work.WorkPublicCreateViewModel;
+
     using Kendo.Mvc.UI;
     using Kendo.Mvc.Extensions;
     using DigitalLibrary.Data;
-using DigitalLibrary.Web.ViewModels.Work;
+    using DigitalLibrary.Web.ViewModels.Work;
     using DigitalLibrary.Web.ViewModels.Common;
     using DigitalLibrary.Data.Logic;
     using System.ComponentModel.DataAnnotations;
     using DigitalLibrary.Models;
     using DigitalLibrary.Web.ViewModels;
+    using System.Collections;
+    using DigitalLibrary.Web.Areas.Administration.Controllers.Base;
 
-    public class WorkPublicController : BaseController
+    public class WorkPublicController : KendoGridAdministrationController
     {
         private const int PageSize = 5;
         private const int StartWorkYear = 1800;
         private static int currentYear = DateTime.Now.Year;
 
-
         public WorkPublicController(IDigitalLibraryData data)
             : base(data)
         {
-
         }
 
         private IQueryable<WorkPublicListViewModel> GetAllWorks()
@@ -40,7 +45,6 @@ using DigitalLibrary.Web.ViewModels.Work;
 
             return allWorks;
         }
-
 
         public ActionResult List()
         {
@@ -84,47 +88,60 @@ using DigitalLibrary.Web.ViewModels.Work;
         [Authorize]
         public ActionResult Upload(WorkPublicCreateViewModel createModel, IEnumerable<HttpPostedFileBase> files)
         {
-            if (ModelState.IsValid)
+            if (files != null)
             {
-                var currentUserId = User.Identity.GetUserId();
-                var currentUser = this.Data.Users.GetById(currentUserId);
-                var genre = this.Data.Genres.All().Where(g => g.GenreName == createModel.Genre).FirstOrDefault();
-                var author = this.Data.Authors.All().Where(g => g.Name == createModel.Author).FirstOrDefault();
-              
-
-                var workUploadPath = "UploadedFiles\\" + genre.GenreName + "\\" + author.Name + "\\works\\" + createModel.Title + "\\";
-                var zipFileLink = workUploadPath + createModel.Title + ".zip";
-                var pictureFileLink = workUploadPath + createModel.Title + ".png";
-
                 foreach (var file in files)
-	             {
-                     UploadFile(file, genre.GenreName, author.Name, createModel.Title); 
-	            }
-                
-                var newWork = new Work
                 {
-                    AuthorId = author.Id,
-                    Description = createModel.Description,
-                    GenreId = genre.Id,
-                    UploadedById = currentUserId,
-                    Year = createModel.Year,
-                    Title = createModel.Title,
-                    ZipFileLink = zipFileLink,
-                    PictureLink = pictureFileLink
-                };
+                    if (!FileManager.CheckIfFile(file))
+                    {
+                        ModelState.AddModelError("File missing", "No selected file");
+                    }
+                }
 
-                this.Data.Works.Add(newWork);
-                this.Data.SaveChanges();
+                if (ModelState.IsValid && files.Count() == 2)
+                {
+                    var currentUserId = User.Identity.GetUserId();
+                    var currentUser = this.Data.Users.GetById(currentUserId);
+                    var genre = this.Data.Genres.All().Where(g => g.GenreName == createModel.Genre).FirstOrDefault();
+                    var author = this.Data.Authors.All().Where(g => g.Name == createModel.Author).FirstOrDefault();
 
-                var viewModel = this.Data.Works.All()
-                    .Where(w => w.Id == newWork.Id)
-                    .Select(WorkPublicDetailsViewModel.FromWork)
-                    .FirstOrDefault();
 
-                TempData["success"] = "Uploaded successfully";
-                return View("Details", viewModel);
+                    var workUploadPath = "UploadedFiles\\" + genre.GenreName + "\\" + author.Name + "\\works\\" + createModel.Title + "\\";
+                    var zipFileLink = workUploadPath + createModel.Title + ".zip";
+                    var pictureFileLink = workUploadPath + createModel.Title + ".png";
+
+
+                    foreach (var file in files)
+                    {
+                        UploadFile(file, genre.GenreName, author.Name, createModel.Title);
+                    }
+
+                    var newWork = new Work
+                    {
+                        AuthorId = author.Id,
+                        Description = createModel.Description,
+                        GenreId = genre.Id,
+                        UploadedById = currentUserId,
+                        Year = createModel.Year,
+                        Title = createModel.Title,
+                        ZipFileLink = zipFileLink,
+                        PictureLink = pictureFileLink
+                    };
+
+                    this.Data.Works.Add(newWork);
+                    this.Data.SaveChanges();
+
+                    var viewModel = this.Data.Works.All()
+                        .Where(w => w.Id == newWork.Id)
+                        .Select(WorkPublicDetailsViewModel.FromWork)
+                        .FirstOrDefault();
+
+                    TempData["success"] = "Uploaded successfully";
+                    return View("Details", viewModel);
+                }
             }
-
+            LoadDataToViewBag();
+            TempData["error"] = "Invalid upload ";
             return this.View("Create", createModel);
         }
 
@@ -242,6 +259,16 @@ using DigitalLibrary.Web.ViewModels.Work;
             this.ViewBag.Author = authors;
 
             this.ViewData["Genre"] = genres;
+        }
+
+        protected override IEnumerable GetData()
+        {
+            return this.Data.Works.All().Select(ListViewModel.FromWork);
+        }
+
+        protected override T GetById<T>(object id)
+        {
+            return this.Data.Works.GetById(id) as T;
         }
     }
 }

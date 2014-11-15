@@ -1,5 +1,4 @@
-﻿using DigitalLibrary.Web.Areas.Administration.ViewModels.Author;
-namespace DigitalLibrary.Web.Areas.Administration.ViewModels.Authors
+﻿namespace DigitalLibrary.Web.Areas.Administration.ViewModels.Authors
 {
     using System.Linq.Expressions;
     using System;
@@ -28,11 +27,6 @@ namespace DigitalLibrary.Web.Areas.Administration.ViewModels.Authors
             }
         }
 
-        //public AuthorViewModel()
-        //{
-        //   // this.Works = new HashSet<Work>();
-        //}
-
         [HiddenInput(DisplayValue = false)]
         public int? Id { get; set; }
 
@@ -41,6 +35,5 @@ namespace DigitalLibrary.Web.Areas.Administration.ViewModels.Authors
         [Index(IsUnique = true)]
         public string Name { get; set; }
 
-       // public ICollection<Work> Works { get; set; }
     }
 }

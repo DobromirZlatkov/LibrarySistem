@@ -2,13 +2,16 @@
 {
     using DigitalLibrary.Data;
     using DigitalLibrary.Web.Controllers;
+    using System.Globalization;
+    using System.Threading;
+
     // [Authorize(Roles = "Admin")]
     public abstract class AdminController : BaseController
     {
         public AdminController(IDigitalLibraryData data)
             : base(data)
         {
-
+           //Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
         }
     }
 }

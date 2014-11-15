@@ -6,6 +6,7 @@
     public interface IDeletableEntity
     {
         bool IsDeleted { get; set; }
+
         [Column(TypeName = "DateTime")]
         DateTime? DeletedOn { get; set; }
     }

@@ -1,52 +1,47 @@
 ﻿namespace DigitalLibrary.Web.Controllers
 {
-
-    using DigitalLibrary.Data;
-    using DigitalLibrary.Models;
-    using DigitalLibrary.Web.ViewModels.Author;
+    using System.Collections;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
 
+    using DigitalLibrary.Data;
+    using DigitalLibrary.Models;
+    using DigitalLibrary.Web.Areas.Administration.Controllers.Base;
+    using DigitalLibrary.Web.ViewModels.Authors;
 
-    public class AuthorController : BaseController
+    [Authorize]
+    public class AuthorController : KendoGridAdministrationController
     {
         public AuthorController(IDigitalLibraryData data)
             : base(data)
         {
         }
 
-
-       public ActionResult Create(AuthorPublicCreateModel model)
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(AuthorPublicCreateModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var newAuthor = new Author
-                {
-                    Name = model.AuthorName
-                };
-
-                this.Data.Authors.Add(newAuthor);
-                this.Data.SaveChanges();
-              
-
-            }
-
-            Response.Redirect("~/WorkPublic/Create");//to return authordropdown list view
-
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest, ModelState.Values.First().ToString());
+            var dbModel = base.Create<Author>(model);
+            if (dbModel != null) model.Id = dbModel.Id;
+            ViewBag.Author = this.GetData();
+            //cannot handle to refresh author dropdown
+            return new HttpStatusCodeResult(HttpStatusCode.Accepted, ModelState.Values.First().ToString());
         }
 
-
-        private IQueryable<AuthorPublicListViewModel> GetAllAuthors()
+        protected override IEnumerable GetData()
         {
             var allAuthors = this.Data.Authors
-                .All()
-                .Where(a => !a.IsDeleted)
-                .Select(AuthorPublicListViewModel.FromAuthor);
+             .All()
+             .Select(AuthorPublicListViewModel.FromAuthor);
 
             return allAuthors;
         }
 
+        protected override T GetById<T>(object id)
+        {
+            return this.Data.Authors.GetById(id) as T;
+        }
     }
 }

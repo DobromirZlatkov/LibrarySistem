@@ -12,6 +12,9 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using Microsoft.AspNet.Identity;
+    using System.Web.Mvc;
+    using System.Data.Entity.Validation;
 
     public class DigitalLibraryDbContext : IdentityDbContext<User>, IDigitalLibraryDbContext
     {
@@ -48,7 +51,25 @@
         {
             this.ApplyAuditInfoRules();
             this.ApplyDeletableEntityRules();
+            //try
+            //{
             return base.SaveChanges();
+          //  }
+            //catch (DbEntityValidationException e)
+            //{
+            //    foreach (var eve in e.EntityValidationErrors)
+            //    {
+            //       string test = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+            //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+            //        foreach (var ve in eve.ValidationErrors)
+            //        {
+            //            string test2 = string.Format("- Property: \"{0}\", Error: \"{1}\"",
+            //                ve.PropertyName, ve.ErrorMessage);
+            //        }
+            //    }
+
+            //}
+            //return 0;
         }
 
         public new IDbSet<T> Set<T>() where T : class
@@ -82,7 +103,6 @@
 
         private void ApplyAuditInfoRules()
         {
-            // Approach via @julielerman: http://bit.ly/123661P
             foreach (var entry in
                 this.ChangeTracker.Entries()
                     .Where(
@@ -95,9 +115,6 @@
                 {
                     if (!entity.PreserveCreatedOn)
                     {
-                        //var format = "yyyy-MM-dd HH:mm:ss:fff";
-                        //var stringDate = DateTime.Now.ToString(format);
-                        //entity.CreatedOn = DateTime.ParseExact(stringDate, format, CultureInfo.InvariantCulture);
                         entity.CreatedOn = DateTime.Now;
                     }
                 }

@@ -1,7 +1,11 @@
-﻿namespace DigitalLibrary.Web.ViewModels.Author
+﻿using DigitalLibrary.Models;
+using DigitalLibrary.Web.Infrastructure.Mapping;
+namespace DigitalLibrary.Web.ViewModels.Authors
 {
-    public class AuthorPublicCreateModel
+    public class AuthorPublicCreateModel : IMapFrom<Author>
     {
-        public string AuthorName { get; set; }
+        public int? Id { get; set; }
+
+        public string Name { get; set; }
     }
 }
