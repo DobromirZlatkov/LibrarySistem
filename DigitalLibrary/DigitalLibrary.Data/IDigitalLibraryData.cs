@@ -13,7 +13,7 @@
 
         IDeletableEntityRepository<Genre> Genres { get; }
 
-        IDeletableEntityRepository<Like> Likes { get; }
+        IRepository<Like> Likes { get; }
 
         IDeletableEntityRepository<Work> Works { get; }
 

@@ -1,29 +1,21 @@
 ﻿namespace DigitalLibrary.Web.Areas.Administration.Controllers
 {
-    using System;
-    using System.Web.Mvc;
     using System.Collections;
-
-    using Kendo.Mvc.UI;
-    using Kendo.Mvc.Extensions;
     using System.Linq;
+    using System.Web.Mvc;
+
+    using AutoMapper;
+    using Kendo.Mvc.UI;
 
     using DigitalLibrary.Data;
+    using DigitalLibrary.Data.Logic;
     using DigitalLibrary.Web.Areas.Administration.Controllers.Base;
-
+  
+    using EditModel = DigitalLibrary.Web.Areas.Administration.ViewModels.Works.WorkEditModel;
     using Model = DigitalLibrary.Models.Work;
     using ViewModel = DigitalLibrary.Web.Areas.Administration.ViewModels.Works.WorkViewModel;
-    using EditModel = DigitalLibrary.Web.Areas.Administration.ViewModels.Works.WorkEditModel;
-    using DigitalLibrary.Web.Infrastructure.Mapping;
-    using DigitalLibrary.Web.Areas.Administration.ViewModels.Works;
-    using DigitalLibrary.Web.Areas.Administration.ViewModels.Authors;
-    using DigitalLibrary.Models;
-    using DigitalLibrary.Web.Areas.Administration.ViewModels.Genres;
-    using System.Collections.Generic;
-    using DigitalLibrary.Data.Logic;
-
-
-    public class WorkController : KendoGridAdministrationController
+    
+    public class WorkController : KendoGridCRUDController
     {
         public WorkController(IDigitalLibraryData data)
             : base(data)
@@ -58,17 +50,11 @@
                 .Where(a => a.Name == model.Author)
                 .FirstOrDefault();
 
-            var updateModel = new EditModel()
-            {
-                ZipFileLink = model.ZipFileLink,
-                Description = model.Description,
-                GenreId = genre.Id,
-                AuthorId = author.Id,
-                IsApproved = model.IsApproved,
-                PictureLink = model.PictureLink,
-                Title = model.Title,
-                Year = model.Year
-            };
+            var updateModel = new EditModel();
+            Mapper.Map<ViewModel, EditModel>(model, updateModel);
+
+            updateModel.AuthorId = author.Id;
+            updateModel.GenreId = genre.Id;
 
             base.Update<Model, EditModel>(updateModel, model.Id);
             return this.GridOperation(model, request);

@@ -1,56 +1,23 @@
-﻿@using DigitalLibrary.Web.ViewModels.Home
-@model HomePageModel
-
-@{
+﻿@{
     ViewBag.Title = "Home Page";
 }
-
 <div class="jumbotron">
     <h1>Digital Library</h1>
-    @Html.DisplayFor(m => m.Statistics, "HomePageStatisticsViewModel")
+   @Html.Action("Statistics")
 
     <div id="list-top-users">
         <h3>Top ten rated users</h3>
-        @if (@Model.TopUsers != null)
-        {
-            foreach (var user in @Model.TopUsers)
-            {
-                @Html.DisplayFor(m => user, "UserListViewTemplate")
-            }
-        }
+      @Html.Action("TopUsers")
     </div>
 </div>
 <div class="row">
     <div class="paddle page_left carousel_prev" data-track="carousel:previous"><div class="paddle_sprite paddle_left_sprite"></div></div>
     <div class="col-lg-11">
         <h3 class="bolder">Most Popular Works</h3>
-        <div id="most-popupar-works-container" class="home-page-line-container">
-            @foreach (var work in @Model.MostPopularWorks)
-            {
-                @Html.DisplayFor(m => work, "WorkListViewTemplate")
-            }
-
-        </div>
+        @Html.Action("TopWorks")
         <br />
         <br />
         <br />
-        @foreach (var genre in @Model.GenreBooks)
-        {
-            <a href="@Url.Action("Details", "Genre", new { @genre.Id })">
-                <h3 class="bolder">@genre.GenreName</h3>
-            </a>
-            <div class="home-page-line-container">
-                <a href="@Url.Action("Details", "Genre", new { @genre.Id })">
-                </a>
-                @foreach (var work in genre.Works)
-                {
-                    @Html.DisplayFor(m => work, "WorkListViewTemplate")
-                }
-
-            </div>
-            <div class="row">
-
-            </div>
-        }
+        @Html.Action("Genres")
     </div>
 </div>

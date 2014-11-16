@@ -16,7 +16,7 @@
     using DigitalLibrary.Models;
     using DigitalLibrary.Web.Areas.Administration.ViewModels.Genres;
 
-    public class GenreController : KendoGridAdministrationController
+    public class GenreController : KendoGridCRUDController
     {
 
         public GenreController(IDigitalLibraryData data)

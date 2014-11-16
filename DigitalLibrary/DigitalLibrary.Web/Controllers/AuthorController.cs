@@ -9,13 +9,17 @@
     using DigitalLibrary.Models;
     using DigitalLibrary.Web.Areas.Administration.Controllers.Base;
     using DigitalLibrary.Web.ViewModels.Authors;
+    using DigitalLibrary.Web.Infrastructure.Services.Contracts;
 
     [Authorize]
-    public class AuthorController : KendoGridAdministrationController
+    public class AuthorController : KendoGridCRUDController
     {
-        public AuthorController(IDigitalLibraryData data)
+        private IAuthorService authorServices;
+
+        public AuthorController(IDigitalLibraryData data, IAuthorService authorServices)
             : base(data)
         {
+            this.authorServices = authorServices;
         }
 
         [HttpPost]
@@ -25,18 +29,13 @@
         {
             var dbModel = base.Create<Author>(model);
             if (dbModel != null) model.Id = dbModel.Id;
-            ViewBag.Author = this.GetData();
             //cannot handle to refresh author dropdown
             return new HttpStatusCodeResult(HttpStatusCode.Accepted, ModelState.Values.First().ToString());
         }
 
         protected override IEnumerable GetData()
         {
-            var allAuthors = this.Data.Authors
-             .All()
-             .Select(AuthorPublicListViewModel.FromAuthor);
-
-            return allAuthors;
+            return authorServices.GetAuthors();
         }
 
         protected override T GetById<T>(object id)

@@ -42,9 +42,9 @@
             }))
 
         <br />
-    <div class="control-label">
-        Search by Year
-    </div>
+        <div class="control-label">
+            Search by Year
+        </div>
         @(Html.Kendo()
         .NumericTextBox()
         .Name("pricesearch")
@@ -54,8 +54,6 @@
             <input type="submit" value="Search" class="btn" />
         </div>
     }
-
-
 </div>
 <br />
 
@@ -64,16 +62,15 @@
     .Name("work")
     .TagName("div")
     .ClientTemplateId("work-template")
-    .Pageable()    
+    .Pageable()
     .DataSource(data =>
     {
-        data.Read("GetWorks", "WorkPublic");
+        data.Read("Read", ControllerName);
         data.ServerOperation(true);
         data.PageSize(4);
     }))
 
 <script id="work-template" type="text/x-kendo-template">
-
     <div class="col-lg-4 list-page-list home-page-list">
         <a class="btn btn-info width-fixed dowload-button" href="/WorkPublic/Download/#: Id #">
             Download
@@ -82,15 +79,13 @@
             <h4>#: Title #</h4>
             <img src="/${PictureLink}" class="list-work-picture" />
         </a>
-        <a class="alert-success width-fixed" href="/AuthorPublic/Details/#: AuthorId #">
-            #: AuthorName #
+        <div class="alert-success width-fixed">
+            <a class="alert-success width-fixed" href="/AuthorPublic/Details/#: AuthorId #">
+                #: AuthorName #
+            </a>
             #: Year #
-        </a>
-   
-        <div class="rating-container"><p class="rating-bar" style="width:#: LikesCount #%"></p></div>
-        <div class="row"></div>
+        </div>
     </div>
-
 </script>
 <script>
     function onAdditionalData() {

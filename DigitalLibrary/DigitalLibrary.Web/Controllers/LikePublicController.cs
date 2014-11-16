@@ -6,67 +6,39 @@
     using DigitalLibrary.Data;
     using DigitalLibrary.Models;
     using DigitalLibrary.Web.ViewModels.Like;
+    using DigitalLibrary.Web.Infrastructure.Services.Contracts;
+    using DigitalLibrary.Web.ViewModels.Work;
 
     public class LikePublicController : BaseController
     {
-        public LikePublicController(IDigitalLibraryData data)
+        private ILikeService likeServices;
+
+        public LikePublicController(IDigitalLibraryData data, ILikeService likeServices)
             : base(data)
         {
+            this.likeServices = likeServices;
         }
+
+        public ActionResult GetLikes(LikeSubmitModel like)
+        {
+            var work = this.Data.Works
+                .All()
+                .Where(w => w.Id == like.WorkId).Select(WorkPublicDetailsViewModel.FromWork)
+                .FirstOrDefault();
+
+            var viewModel = new LikeViewModel();
+            viewModel.WorkId = work.Id;
+            viewModel.LikeCount = work.LikesCount;
+
+            return PartialView("_LikeControllerPartial", viewModel);
+        }
+
 
         public ActionResult Action(LikeSubmitModel like)
         {
-            var currentUserId = this.CurrentUser.Id;
-
-            var IfCanLike = CheckIfUserCanLikeOrDislike(like.WorkId, currentUserId, like.LikeState);
-
-            if (like.LikeState == "like")
-            {
-                var yourNegativeLike = this.Data.Likes.All()
-                .Where(x => x.WorkId == like.WorkId && x.LikedById == currentUserId && !x.IsPositive)
-                .FirstOrDefault();
-                if (yourNegativeLike != null)
-                {
-                    this.Data.Likes.Delete(yourNegativeLike);
-                }
-            }
-            else
-            {
-                var yourPositiveLike = this.Data.Likes.All()
-                .Where(x => x.WorkId == like.WorkId && x.LikedById == currentUserId && x.IsPositive)
-                .FirstOrDefault();
-                if (yourPositiveLike != null)
-                {
-                    this.Data.Likes.Delete(yourPositiveLike);
-                }
-            }
-
-            Like newLike;
-            if (IfCanLike)
-            {
-                if (like.LikeState == "like")
-                {
-                    newLike = new Like
-                    {
-                        LikedById = currentUserId,
-                        WorkId = like.WorkId,
-                        IsPositive = true
-                    };
-                }
-                else
-                {
-                    newLike = new Like
-                    {
-                        LikedById = currentUserId,
-                        WorkId = like.WorkId,
-                        IsPositive = false
-                    };
-                }
-                this.Data.Likes.Add(newLike);
-            }
-
-            var workVotedFor = this.Data.Works.GetById(like.WorkId);
+            var workVotedFor = likeServices.ExtecuteLikeOrDislikeAction(like, this.CurrentUser);
             var positiveMinusNegativeLikes = CalculateCountRate(workVotedFor);
+
             return this.Content(positiveMinusNegativeLikes.ToString());
         }
 
@@ -76,20 +48,6 @@
             var negative = workVotedFor.Likes.Count(l => !l.IsPositive);
 
             return positive - negative;
-        }
-
-        private bool CheckIfUserCanLikeOrDislike(int workVotedForId, string currentUserId, string likeOrDislike)
-        {
-            switch (likeOrDislike.ToLower())
-            {
-                case "like": return !this.Data.Likes.All()
-                .Any(x => x.WorkId == workVotedForId && x.LikedById == currentUserId && x.IsPositive);
-
-                case "dislike": return !this.Data.Likes.All()
-                .Any(x => x.WorkId == workVotedForId && x.LikedById == currentUserId && !x.IsPositive);
-
-                default: return false;
-            }
         }
     }
 }

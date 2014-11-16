@@ -17,7 +17,7 @@
     using AutoMapper;
 
 
-    public class CommentController : KendoGridAdministrationController
+    public class CommentController : KendoGridCRUDController
     {
         public CommentController(IDigitalLibraryData data)
             : base(data)
@@ -44,12 +44,8 @@
         public ActionResult Update([DataSourceRequest]DataSourceRequest request, ViewModel model)
         {
             var commentEditView = new EditModel();
-            commentEditView.Id = model.Id;
-            commentEditView.Content = model.Content;
-            commentEditView.CreatedOn = model.CreatedOn;
-            commentEditView.ModifiedOn = model.ModifiedOn;
-
-            base.Update<Model, EditModel>(commentEditView, model.Id);
+            Mapper.Map<ViewModel, EditModel>(model, commentEditView);
+            base.Update<Model, EditModel>(commentEditView, commentEditView.Id);
             return this.GridOperation(model, request);
         }
 

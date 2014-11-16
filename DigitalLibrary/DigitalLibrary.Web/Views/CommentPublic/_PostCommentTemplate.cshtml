@@ -1,0 +1,11 @@
+﻿@model int
+@if (User.Identity.IsAuthenticated)
+{
+    using (Ajax.BeginForm("Create", "CommentPublic", new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "Comments", OnSuccess = "clearText", OnFailure = "commentPostFailure" }))
+    {
+        @Html.Hidden("WorkId", Model)
+        @Html.TextArea("Content", new { id = "comment-content-textarea", @class = "form-control" })
+        @Html.AntiForgeryToken()
+        <input type="submit" value="Submit comment" class="btn btn-primary" />
+    }
+}

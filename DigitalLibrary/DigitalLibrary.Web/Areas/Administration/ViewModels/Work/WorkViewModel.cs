@@ -3,11 +3,12 @@
     using System;
     using System.Linq.Expressions;
     using System.Web.Mvc;
+    using System.Collections.Generic;
 
     using DigitalLibrary.Models;
     using DigitalLibrary.Web.Areas.Administration.ViewModels.Base;
-using System.Collections.Generic;
-using DigitalLibrary.Web.Areas.Administration.ViewModels.Genres;
+    using DigitalLibrary.Web.Areas.Administration.ViewModels.Genres;
+    using System.ComponentModel.DataAnnotations;
 
     public class WorkViewModel : AdministrationViewModel
     {
@@ -48,8 +49,10 @@ using DigitalLibrary.Web.Areas.Administration.ViewModels.Genres;
 
         public string ZipFileLink { get; set; }
 
+        [Editable(false)]
         public string Author { get; set; }
 
+        [Editable(false)]
         public string UploadedBy { get; set; }
 
         public string Genre { get; set; }

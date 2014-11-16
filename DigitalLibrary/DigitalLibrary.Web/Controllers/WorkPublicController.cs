@@ -26,7 +26,7 @@
     using System.Collections;
     using DigitalLibrary.Web.Areas.Administration.Controllers.Base;
 
-    public class WorkPublicController : KendoGridAdministrationController
+    public class WorkPublicController : KendoGridCRUDController
     {
         private const int PageSize = 5;
         private const int StartWorkYear = 1800;
@@ -35,15 +35,6 @@
         public WorkPublicController(IDigitalLibraryData data)
             : base(data)
         {
-        }
-
-        private IQueryable<WorkPublicListViewModel> GetAllWorks()
-        {
-            var allWorks = this.Data.Works
-                .All()
-                .Select(WorkPublicListViewModel.FromWork);
-
-            return allWorks;
         }
 
         public ActionResult List()
@@ -104,15 +95,15 @@
                     var currentUser = this.Data.Users.GetById(currentUserId);
                     var genre = this.Data.Genres.All().Where(g => g.GenreName == createModel.Genre).FirstOrDefault();
                     var author = this.Data.Authors.All().Where(g => g.Name == createModel.Author).FirstOrDefault();
-
-
                     var workUploadPath = "UploadedFiles\\" + genre.GenreName + "\\" + author.Name + "\\works\\" + createModel.Title + "\\";
-                    var zipFileLink = workUploadPath + createModel.Title + ".zip";
-                    var pictureFileLink = workUploadPath + createModel.Title + ".png";
-
-
+                    var pictureFileExtension = Path.GetExtension(files.ElementAt(0).FileName);
+                    var zipFileExtension = Path.GetExtension(files.ElementAt(1).FileName);
+                    var zipFileLink = workUploadPath + createModel.Title + zipFileExtension;
+                    var pictureFileLink = workUploadPath + createModel.Title + pictureFileExtension;
+                   
                     foreach (var file in files)
                     {
+                      
                         UploadFile(file, genre.GenreName, author.Name, createModel.Title);
                     }
 
@@ -130,7 +121,6 @@
 
                     this.Data.Works.Add(newWork);
                     this.Data.SaveChanges();
-
                     var viewModel = this.Data.Works.All()
                         .Where(w => w.Id == newWork.Id)
                         .Select(WorkPublicDetailsViewModel.FromWork)
@@ -145,11 +135,6 @@
             return this.View("Create", createModel);
         }
 
-        public JsonResult GetWorks([DataSourceRequest] DataSourceRequest request)
-        {
-            return Json(this.GetAllWorks().ToDataSourceResult(request), JsonRequestBehavior.AllowGet);
-        }
-
         public JsonResult GetWorkData(string text)
         {
             var result = this.Data.Works
@@ -162,7 +147,6 @@
                 });
 
             var matchWords = new HashSet<object>();
-
             foreach (var item in result)
             {
                 matchWords.Add(new
@@ -263,7 +247,9 @@
 
         protected override IEnumerable GetData()
         {
-            return this.Data.Works.All().Select(ListViewModel.FromWork);
+            return this.Data.Works.All()
+                .Where(w => w.IsApproved)
+                .Select(ListViewModel.FromWork);
         }
 
         protected override T GetById<T>(object id)

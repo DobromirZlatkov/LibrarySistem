@@ -31,7 +31,13 @@
                         <li>@Html.RouteLink("Upload", "Default", new { action = "Create", controller = "WorkPublic" }, null)</li>
                         <li>@Html.RouteLink("TrustedUser", "Default", new { action = "List", controller = "TrustedUserWork" }, null)</li>
                         <li>@Html.RouteLink("Admin route", "Admin", new { area = "Administration/Home", action = "Index", controller = "Home" }, null)</li>
+
                     }
+                    @if (User.IsInRole("trusted"))
+                    {
+                       
+                    }
+    
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

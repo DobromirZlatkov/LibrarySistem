@@ -51,25 +51,7 @@
         {
             this.ApplyAuditInfoRules();
             this.ApplyDeletableEntityRules();
-            //try
-            //{
             return base.SaveChanges();
-          //  }
-            //catch (DbEntityValidationException e)
-            //{
-            //    foreach (var eve in e.EntityValidationErrors)
-            //    {
-            //       string test = string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-            //            eve.Entry.Entity.GetType().Name, eve.Entry.State);
-            //        foreach (var ve in eve.ValidationErrors)
-            //        {
-            //            string test2 = string.Format("- Property: \"{0}\", Error: \"{1}\"",
-            //                ve.PropertyName, ve.ErrorMessage);
-            //        }
-            //    }
-
-            //}
-            //return 0;
         }
 
         public new IDbSet<T> Set<T>() where T : class

@@ -1,0 +1,12 @@
+﻿@model IList<DigitalLibrary.Web.ViewModels.Users.UserPublicListViewModel>
+@{
+    ViewBag.Title = "_TopRatedUsers";
+}
+
+@if (@Model != null)
+{
+    foreach (var user in @Model)
+    {
+        @Html.DisplayFor(m => user, "UserListViewTemplate")
+    }
+}

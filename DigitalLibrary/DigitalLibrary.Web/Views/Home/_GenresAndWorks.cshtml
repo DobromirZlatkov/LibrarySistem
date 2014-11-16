@@ -1,0 +1,21 @@
+﻿@using DigitalLibrary.Web.ViewModels.Genre
+@model IList<GenrePublicViewModel>
+
+@foreach (var genre in @Model)
+{
+    <a href="@Url.Action("Details", "Genre", new { @genre.Id })">
+        <h3 class="bolder">@genre.GenreName</h3>
+    </a>
+    <div class="home-page-line-container">
+        <a href="@Url.Action("Details", "Genre", new { @genre.Id })">
+        </a>
+        @foreach (var work in genre.Works)
+        {
+            @Html.DisplayFor(m => work, "WorkListViewTemplate")
+        }
+
+    </div>
+    <div class="row">
+
+    </div>
+}

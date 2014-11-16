@@ -7,7 +7,7 @@
             double allUploads = (double)firstNumber + (double)secondNumber;
             if (allUploads > 0)
             {
-                double rating = ((double)secondNumber / allUploads) * 100;
+                double rating = ((double)firstNumber / allUploads) * 100;
                 return rating;
             }
 

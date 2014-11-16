@@ -74,7 +74,7 @@ namespace DigitalLibrary.Data.Logic
             {
                 if (CheckIfFileIsPicture(file))
                 {
-                    var fileSaveName = fileName + ".png";
+                    var fileSaveName = fileName + extension;
 
                     var path = Path.Combine(HttpContext.Current.Server.MapPath("~/" + uploadPath + "/"), fileSaveName);
 

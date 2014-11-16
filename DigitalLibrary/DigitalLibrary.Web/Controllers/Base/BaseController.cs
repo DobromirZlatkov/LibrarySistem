@@ -1,21 +1,33 @@
-﻿using DigitalLibrary.Data;
-using DigitalLibrary.Models;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Web;
-using System.Web.Mvc;
-
-using Microsoft.AspNet.Identity;
-
-
-namespace DigitalLibrary.Web.Controllers
+﻿namespace DigitalLibrary.Web.Controllers
 {
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using System.Threading;
+    using System.Web.Mvc;
+    using System.Web.Routing;
+
+    using Microsoft.AspNet.Identity;
+
+    using DigitalLibrary.Data;
+    using DigitalLibrary.Models;
+
+   // [HandleError]
     public abstract class BaseController : Controller
     {
         protected IDigitalLibraryData Data { get; set; }
+
+        protected IdentityManager IdentityManager { get; set; }
+
+        protected User CurrentUser { get; private set; }
+
+        protected User test
+        {
+            get
+            {
+                return this.Data.Users.GetById(User.Identity.GetUserId());
+            }
+        }
 
         public BaseController(IDigitalLibraryData data)
         {
@@ -24,12 +36,10 @@ namespace DigitalLibrary.Web.Controllers
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
         }
 
-
-        protected IdentityManager IdentityManager { get; set; }
-
-        protected User CurrentUser 
+        protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
         {
-            get { return this.Data.Users.GetById(User.Identity.GetUserId()); }
+            this.CurrentUser = this.Data.Users.All().Where(u => u.UserName == requestContext.HttpContext.User.Identity.Name).FirstOrDefault();
+            return base.BeginExecute(requestContext, callback, state);
         }
     }
 }

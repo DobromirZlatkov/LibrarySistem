@@ -1,0 +1,8 @@
+﻿@using DigitalLibrary.Web.ViewModels.Work
+@model IList<WorkPublicListViewModel>
+<div id="most-popupar-works-container" class="home-page-line-container">
+    @foreach (var work in @Model)
+    {
+        @Html.DisplayFor(m => work, "WorkListViewTemplate")
+    }
+</div>

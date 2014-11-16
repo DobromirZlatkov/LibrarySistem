@@ -1,0 +1,18 @@
+﻿@using DigitalLibrary.Web.ViewModels.Like
+@model LikeViewModel
+@{
+    ViewBag.Title = "_LikeViewModel";
+}
+<div class="span10">
+    <strong>Likes : </strong><strong id="work-votes">@Model.LikeCount</strong>
+</div>
+<br />
+<br />
+<div class="span3">
+    @if (User.Identity.IsAuthenticated)
+    {
+        @Ajax.ActionLink("Like", "Action", "LikePublic", new { WorkId = Model.WorkId, LikeState = "like" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "work-votes", HttpMethod = "Post", OnSuccess = "hideVoteUpButton" }, new { id = "vote-up-button", @class = "btn btn-default" })
+        @Ajax.ActionLink("Dislike", "Action", "LikePublic", new { WorkId = Model.WorkId, LikeState = "dislike" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "work-votes", HttpMethod = "Post", OnSuccess = "hideVoteDownButton" }, new { id = "vote-down-button", @class = "btn btn-default" })
+    }
+</div>
+

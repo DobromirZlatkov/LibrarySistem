@@ -1,13 +1,12 @@
 ﻿namespace DigitalLibrary.Models
 {
+    using System.ComponentModel;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
 
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using System.Collections.Generic;
-    using System.Security.Claims;
-    using System.Threading.Tasks;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
+
     using DigitalLibrary.Data.Logic;
 
     public class User : IdentityUser
@@ -19,8 +18,10 @@
             return userIdentity;
         }
 
+        [DefaultValue(1)]
         public int PositiveUploads { get; set; }
 
+        [DefaultValue(1)]
         public int NegativeUploads { get; set; }
 
         public double Rating

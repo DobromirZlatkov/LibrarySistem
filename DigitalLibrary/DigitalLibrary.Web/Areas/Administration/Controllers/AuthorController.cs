@@ -19,7 +19,7 @@
     using AutoMapper;
 
 
-    public class AuthorController : KendoGridAdministrationController
+    public class AuthorController : KendoGridCRUDController
     {
         public AuthorController(IDigitalLibraryData data)
             : base(data)

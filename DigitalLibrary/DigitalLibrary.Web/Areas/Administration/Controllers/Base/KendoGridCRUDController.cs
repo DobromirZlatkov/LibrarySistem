@@ -1,23 +1,21 @@
 ﻿namespace DigitalLibrary.Web.Areas.Administration.Controllers.Base
 {
     using System.Collections;
+    using System.Data.Entity;
     using System.Web.Mvc;
 
-    using DigitalLibrary.Data;
-
-    using Kendo.Mvc.UI;
-    using Kendo.Mvc.Extensions;
-    using System.Data.Entity;
     using AutoMapper;
-    using DigitalLibrary.Web.Areas.Administration.ViewModels.Base;
-    using DigitalLibrary.Data.Contracts;
-    using System.Collections.Generic;
-    using DigitalLibrary.Models;
-    using System.Linq;
 
-    public abstract class KendoGridAdministrationController : AdminController
+    using Kendo.Mvc.Extensions;
+    using Kendo.Mvc.UI;
+
+    using DigitalLibrary.Data;
+    using DigitalLibrary.Data.Contracts;
+    using DigitalLibrary.Web.Areas.Administration.ViewModels.Base;
+
+    public abstract class KendoGridCRUDController : AdminController
     {
-        public KendoGridAdministrationController(IDigitalLibraryData data)
+        public KendoGridCRUDController(IDigitalLibraryData data)
             : base(data)
         {
         }

@@ -184,7 +184,7 @@
     <Compile Include="Areas\Administration\AdministrationAreaRegistration.cs" />
     <Compile Include="Areas\Administration\Controllers\AuthorController.cs" />
     <Compile Include="Areas\Administration\Controllers\Base\AdminController.cs" />
-    <Compile Include="Areas\Administration\Controllers\Base\KendoGridAdministrationController.cs" />
+    <Compile Include="Areas\Administration\Controllers\Base\KendoGridCRUDController.cs" />
     <Compile Include="Areas\Administration\Controllers\CommentController.cs" />
     <Compile Include="Areas\Administration\Controllers\GenreController.cs" />
     <Compile Include="Areas\Administration\Controllers\HomeController.cs" />
@@ -212,10 +212,20 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Helpers\HtmlExtensions.cs" />
+    <Compile Include="Infrastructure\Services\CommentService.cs" />
+    <Compile Include="Infrastructure\Services\Contracts\ICommentService.cs" />
+    <Compile Include="Infrastructure\Services\Contracts\ILikeService.cs" />
+    <Compile Include="Infrastructure\Services\Contracts\ITrustedUserService.cs" />
+    <Compile Include="Infrastructure\Services\HomeServices.cs" />
     <Compile Include="Infrastructure\Mapping\AutoMapperConfig.cs" />
     <Compile Include="Infrastructure\Mapping\IHaveCustomMappings.cs" />
     <Compile Include="Infrastructure\Mapping\IMapFrom.cs" />
     <Compile Include="Infrastructure\Mapping\ISimpleView.cs" />
+    <Compile Include="Infrastructure\Services\AuthorServices.cs" />
+    <Compile Include="Infrastructure\Services\Contracts\IAuthorService.cs" />
+    <Compile Include="Infrastructure\Services\Contracts\IHomeServices.cs" />
+    <Compile Include="Infrastructure\Services\LikeService.cs" />
+    <Compile Include="Infrastructure\Services\TrustedUserService.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\Author\AuthorPublicCreateModel.cs" />
     <Compile Include="ViewModels\Author\AuthorPublicListViewModel.cs" />
@@ -226,6 +236,7 @@
     <Compile Include="ViewModels\Home\HomePageModel.cs" />
     <Compile Include="ViewModels\Home\HomePageStatisticsModel.cs" />
     <Compile Include="ViewModels\Like\LikeSubmitModel.cs" />
+    <Compile Include="ViewModels\Like\LikeViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -1132,12 +1143,19 @@
     <Content Include="Views\WorkPublic\Details.cshtml" />
     <Content Include="Views\WorkPublic\List.cshtml" />
     <Content Include="Views\WorkPublic\Search.cshtml" />
+    <Content Include="Views\Home\_TopRatedUsers.cshtml" />
+    <Content Include="Views\Home\_Statistics.cshtml" />
+    <Content Include="Views\Home\_TopRatedWorks.cshtml" />
+    <Content Include="Views\Home\_GenresAndWorks.cshtml" />
+    <Content Include="Views\LikePublic\_LikeControllerPartial.cshtml" />
+    <Content Include="Views\CommentPublic\_PostCommentTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Administration\Models\" />
     <Folder Include="Areas\Administration\Views\KendoGridAdministration\" />
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

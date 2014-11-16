@@ -11,6 +11,9 @@ namespace DigitalLibrary.Web.App_Start
     using Ninject;
     using Ninject.Web.Common;
     using DigitalLibrary.Data;
+    using DigitalLibrary.Web.Infrastructure.Services.Contracts;
+    using DigitalLibrary.Web.Infrastructure;
+    using DigitalLibrary.Web.Infrastructure.Services;
 
     public static class NinjectWebCommon 
     {
@@ -64,6 +67,12 @@ namespace DigitalLibrary.Web.App_Start
         {
             kernel.Bind<IDigitalLibraryDbContext>().To<DigitalLibraryDbContext>();
             kernel.Bind<IDigitalLibraryData>().To<DigitalLibraryData>();
+
+            kernel.Bind<IHomeServices>().To<HomeServices>();
+            kernel.Bind<IAuthorService>().To<AuthorServices>();
+            kernel.Bind<ICommentService>().To<CommentService>();
+            kernel.Bind<ILikeService>().To<LikeService>();
+            kernel.Bind<ITrustedUserService>().To<TrustedUserService>();
         }        
     }
 }

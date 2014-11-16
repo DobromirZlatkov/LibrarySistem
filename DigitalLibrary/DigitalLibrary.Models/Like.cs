@@ -1,10 +1,8 @@
 ﻿namespace DigitalLibrary.Models
 {
-    using DigitalLibrary.Data.Contracts;
-    using System;
     using System.ComponentModel.DataAnnotations;
 
-    public class Like : DeletableEntity
+    public class Like
     {
         [Key]
         public int Id { get; set; }

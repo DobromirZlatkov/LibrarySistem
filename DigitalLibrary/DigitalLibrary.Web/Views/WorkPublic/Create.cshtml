@@ -4,65 +4,76 @@
     ViewBag.Title = "Create";
     const string ControllerName = "WorkPublic";
     const string AuthorController = "Author";
-}
-@{
     var currentYear = DateTime.Now.Year;
 }
-@using (Html.BeginForm("Upload", ControllerName, FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    <div>
-        @Html.LabelFor(m => m.Title, "Title: ", new { id = "title-input" })
-        @Html.EditorFor(m => m.Title, new { @class = "input-small" })
-        @Html.ValidationMessageFor(m => m.Title, String.Empty, new { @class = "help-inline", @style = "color:red" })
-    </div>
-    <div>
-        @Html.LabelFor(m => m.Description, "Description: ")
-        @Html.TextArea("Description", new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Description, String.Empty, new { @class = "help-inline", @style = "color:red" })
-    </div>
-    <div>
-        @Html.LabelFor(m => m.Year, "Year : ")
-        @Html.DropDownList("Year")
-        @Html.ValidationMessageFor(m => m.Year, String.Empty, new { @class = "help-inline", @style = "color:red" })
-    </div>
-    <div>
-        @Html.LabelFor(m => m.Genre, "Genre : ")
-        @Html.DropDownList("Genre");
-    </div>
-    <div id="authors-dropdown-container">
-        @Html.LabelFor(m => m.Author, "Author name: ")
-        @Html.DropDownList("Author");
-    </div>
-    <div>
-        Select Work Picture :<input type="file" name="files" accept=".jpeg , .jpg, .png" id="file-picture" />
-        Select Work ZipFile :<input type="file" name="files" accept=".zip , .rar" />
-    </div>
-    <div>
-        <input type="submit" name="upload" id="upload-file"/>
-    </div>
-}
-<div>
-    <input type="button" name="show-createAuthor-form" class="btn-sm" id="show-createAuthor-form" value="Add new Author" />
-</div>
-
-<div id="createauthor-form" style="display:none">
-    @using (Ajax.BeginForm("Create", AuthorController, new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "authors-dropdown-container" }))
+<div class="jumbotron row">
+    @using (Html.BeginForm("Upload", ControllerName, FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-        <h3>Create author</h3>
-        <div>
-            @Html.Label("Author Name")
-            @Html.Editor("Name")
-        </div>
-
         @Html.AntiForgeryToken()
-        <input type="submit" value="Submit author" />
+        @Html.ValidationSummary(true)
+        <div class="col-lg-5">
+            <div>
+                <strong>@Html.LabelFor(m => m.Title, "Title: ", new { id = "title-input" })</strong>
+                @Html.EditorFor(m => m.Title, new { @class = "input-small" })
+                @Html.ValidationMessageFor(m => m.Title, String.Empty, new { @class = "help-inline", @style = "color:red" })
+            </div>
+            <div>
+                <strong>@Html.LabelFor(m => m.Description, "Description: ")</strong>
+                @Html.TextArea("Description", new { @class = "form-control", id = "heigth-fixed" })
+                @Html.ValidationMessageFor(m => m.Description, String.Empty, new { @class = "help-inline", @style = "color:red" })
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div>
+                <strong>@Html.LabelFor(m => m.Year, "Year : ")</strong>
+                @Html.DropDownList("Year")
+                @Html.ValidationMessageFor(m => m.Year, String.Empty, new { @class = "help-inline", @style = "color:red" })
+            </div>
+            <div>
+                <strong>
+                    @Html.LabelFor(m => m.Genre, "Genre : ")
+                </strong>
+                @Html.DropDownList("Genre")
+            </div>
+            <div id="authors-dropdown-container">
+                <strong>
+                    @Html.LabelFor(m => m.Author, "Author name: ")
+                </strong>
+                @Html.DropDownList("Author")
+            </div>
+            <div>
+                <strong>
+                    Select Work Picture :
+                </strong>
+                <input type="file" name="files" accept=".jpeg , .jpg, .png" id="file-picture" />
+                <strong>
+                    Select Work ZipFile :
+                </strong>
+                <input type="file" name="files" accept=".zip , .rar" />
+            </div>
+            <div>
+                <input type="submit" name="upload" id="upload-file" />
+            </div>
+        </div>
     }
+    <div class="col-sm-3">
+        <input type="button" name="show-createAuthor-form" class="btn-sm" id="show-createAuthor-form" value="Add new Author" />
+
+        <div id="createauthor-form" style="display:none">
+            @using (Ajax.BeginForm("Create", AuthorController, new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "authors-dropdown-container" }))
+            {
+                <h3>Create author</h3>
+                <div>
+                    @Html.Label("Author Name")
+                    @Html.Editor("Name")
+                </div>
+
+                @Html.AntiForgeryToken()
+                <input type="submit" value="Submit author" />
+            }
+        </div>
+    </div>
 </div>
-
-
 
 <script>
     (function () {
@@ -80,13 +91,13 @@
 
     $("#upload-file").click(function () {
         var fileName = $("#file-picture").val();
-        if ((fileName.lastIndexOf("png") === fileName.length - 3) 
+        if ((fileName.lastIndexOf("png") === fileName.length - 3)
             || (fileName.lastIndexOf("jpg") === fileName.length - 3)
             || (fileName.lastIndexOf("jpeg") === fileName.length - 4)) {
-           
+
         }
         else {
-            alert("Not PNG");
+            alert("First file is not image");
         }
     })
 </script>

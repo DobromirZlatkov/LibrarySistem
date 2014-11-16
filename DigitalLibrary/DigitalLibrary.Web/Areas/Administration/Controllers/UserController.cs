@@ -1,24 +1,18 @@
 ﻿namespace DigitalLibrary.Web.Areas.Administration.Controllers
 {
-    using System;
-    using System.Web.Mvc;
     using System.Collections;
+    using System.Web.Mvc;
 
-    using Microsoft.AspNet.Identity;
-
-    using Kendo.Mvc.UI;
     using Kendo.Mvc.Extensions;
+    using Kendo.Mvc.UI;
 
     using DigitalLibrary.Data;
     using DigitalLibrary.Web.Areas.Administration.Controllers.Base;
-
-    using Model = DigitalLibrary.Models.User;
-   // using ViewModel = DigitalLibrary.Web.Areas.Administration.ViewModels.Genres.GenreViewModel;
-    using DigitalLibrary.Web.Infrastructure.Mapping;
-    using DigitalLibrary.Models;
     using DigitalLibrary.Web.Areas.Administration.ViewModels.Users;
+ 
+    using Model = DigitalLibrary.Models.User;
 
-    public class UserController : KendoGridAdministrationController
+    public class UserController : KendoGridCRUDController
     {
         public UserController(IDigitalLibraryData data)
             : base(data)

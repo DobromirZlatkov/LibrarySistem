@@ -4,11 +4,13 @@
     using System.ComponentModel.DataAnnotations;
     using System.Linq.Expressions;
     using System.Web.Mvc;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using AutoMapper;
 
     using DigitalLibrary.Models;
     using DigitalLibrary.Web.Areas.Administration.ViewModels.Base;
     using DigitalLibrary.Web.Infrastructure.Mapping;
-    using System.ComponentModel.DataAnnotations.Schema;
 
     public class CommentViewModel : AdministrationViewModel, IMapFrom<Comment>
     {
@@ -47,5 +49,6 @@
         [Editable(false)]
         [HiddenInput(DisplayValue = false)]
         public string Work { get; set; }
+
     }
 }

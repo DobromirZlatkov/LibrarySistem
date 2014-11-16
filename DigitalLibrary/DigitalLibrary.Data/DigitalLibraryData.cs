@@ -56,9 +56,9 @@ namespace DigitalLibrary.Data
             get { return this.GetDeletableEntityRepository<Genre>(); }
         }
 
-        public IDeletableEntityRepository<Like> Likes
+        public IRepository<Like> Likes
         {
-            get { return this.GetDeletableEntityRepository<Like>(); }
+            get { return this.GetRepository<Like>(); }
         }
 
         public IDeletableEntityRepository<Work> Works

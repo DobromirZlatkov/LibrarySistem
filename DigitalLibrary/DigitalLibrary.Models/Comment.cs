@@ -16,10 +16,12 @@
         [Column(TypeName = "DateTime")]
         public DateTime DatePosted { get; set; }
 
+        [Required]
         public string PostedById { get; set; }
 
         public virtual User PostedBy { get; set; }
 
+        [Required]
         public int WorkId { get; set; }
 
         public virtual Work Work { get; set; }

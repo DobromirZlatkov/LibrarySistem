@@ -1,38 +1,26 @@
 ﻿@using DigitalLibrary.Web.ViewModels.Work
 @model WorkPublicDetailsViewModel
-
 @{
     ViewBag.Title = "Details";
 }
-
 <h2>@Model.Title</h2>
-<div class="row">
-    <div class="span4">
+<div class="row jumbotron">
+    <div class="col-lg-5 test">
         <div><strong>Author:</strong> @Model.AuthorName</div>
         <div><strong>Year:</strong> @Model.Year </div>
-        <div><strong>Desctiption:</strong>@Model.Description</div>
+        <strong>Desctiption:</strong>
+        <p id="desctiption-details-text">@Model.Description</p>
+
+    </div>
+    <div class="col-lg-offset-7">
         <a class="btn btn-info hoover-pop dowload-button" href="@Url.Action("DownLoad", "WorkPublic", new { @Model.Id })">
             Download
         </a>
-    </div>
-    <div class="span4">
-        <img src="@Url.Content("~/" + @Model.PictureLink)" class="img-responsive" style="width:300px" />
+        <img src="@Url.Content("~/" + @Model.PictureLink)" class="img-responsive" style="width:400px" />
     </div>
 
-</div>
-
-<div>
-    <div class="span10">
-        Likes:<strong id="work-votes">@Model.LikesCount</strong>
-    </div>
-    <br />
-    <br />
-    <div class="span3">
-        @if (User.Identity.IsAuthenticated)
-        {
-            @Ajax.ActionLink("Like", "Action", "LikePublic", new { WorkId = Model.Id, LikeState = "like" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "work-votes", HttpMethod = "Post", OnSuccess = "hideVoteUpButton" }, new { id = "vote-up-button", @class = "btn btn-default" })
-            @Ajax.ActionLink("Dislike", "Action", "LikePublic", new { WorkId = Model.Id, LikeState = "dislike" }, new AjaxOptions { InsertionMode = InsertionMode.Replace, UpdateTargetId = "work-votes", HttpMethod = "Post", OnSuccess = "hideVoteDownButton" }, new { id = "vote-down-button", @class = "btn btn-default" })
-        }
+    <div class="col-lg-3">
+        @Html.Action("GetLikes", "LikePublic", new { WorkId = Model.Id})  
     </div>
 </div>
 <br />
@@ -45,7 +33,9 @@
 </div>
 
 <div>
-    @if (User.Identity.IsAuthenticated)
+    @Html.Action("PostCommentView", "CommentPublic", new { WorkId = Model.Id })
+    
+    @*@if (User.Identity.IsAuthenticated)
     {
         using (Ajax.BeginForm("Create", "CommentPublic", new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "Comments", OnSuccess = "clearText", OnFailure = "commentPostFailure" }))
         {
@@ -54,7 +44,7 @@
             @Html.AntiForgeryToken()
             <input type="submit" value="Submit comment" class="btn btn-primary"  />
         }
-    }
+    }*@
 
 </div>
 @section scripts{

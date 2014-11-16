@@ -12,11 +12,11 @@
         {
             cols.Bound(pr => pr.Id);
             cols.Bound(pr => pr.Content).Title("Съдържание");
-            //cols.Bound(pr => pr.PostedBy).Title("Постнат от");
-            //cols.Bound(pr => pr.Work).Title("Творба");
-            //cols.Bound(pr => pr.DatePosted).Title("Постнат на");
+            cols.Bound(pr => pr.PostedBy).Title("Постнат от");
+            cols.Bound(pr => pr.Work).Title("Творба");
+            cols.Bound(pr => pr.DatePosted).Title("Постнат на");
             cols.Bound(pr => pr.CreatedOn).Hidden();
-           // cols.Bound(pr => pr.ModifiedOn).Hidden();
+            cols.Bound(pr => pr.ModifiedOn).Hidden();
             cols.Command(com => com.Edit()).Title("Промяна");
             cols.Command(com => com.Destroy()).Title("Изтриване");
         })

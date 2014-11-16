@@ -11,58 +11,52 @@
     using DigitalLibrary.Web.ViewModels.Genre;
     using DigitalLibrary.Web.ViewModels.Work;
     using DigitalLibrary.Web.ViewModels.Home;
+    using DigitalLibrary.Web.Infrastructure.Services.Contracts;
 
 
     public class HomeController : BaseController
     {
-        public HomeController(IDigitalLibraryData data)
+        private IHomeServices homeServices;
+
+        public HomeController(IDigitalLibraryData data, IHomeServices homeServices)
             : base(data)
         {
+            this.homeServices = homeServices;
         }
 
+        [OutputCache(Duration = 60 * 60)]
         public ActionResult Index()
         {
-            if (this.HttpContext.Cache["HomePageWorks"] == null)
-            {
-                var topUsers = this.Data.Users.All()
-                    .OrderByDescending(u => u.PositiveUploads)
-                    .Select(UserPublicListViewModel.FromUser);
+           return View();
+        }
 
-                var allAuthorsForStatistics = this.Data.Authors.All().Count();
-                var allUsersForStatistics = this.Data.Users.All().Count();
-                var allGenresForStatistics = this.Data.Genres.All().Count();
-                var allWorksForStatistics = this.Data.Works.All().Count();
+        public ActionResult Error()
+        {
+            return View();
+        }
 
-                var genres = this.Data.Genres
-                    .All()
-                    .Select(GenrePublicViewModel.FromGenre)
-                    .ToList();
+        //[OutputCache(Duration = 60 * 60)]
+        public ActionResult TopUsers()
+        {
+            return PartialView("_TopRatedUsers", this.homeServices.GetTopUsers(6));
+        }
 
-                var mostPopularWorks = this.Data.Works.All()
-                    .Where(w => w.IsApproved)
-                    .OrderByDescending(w => w.Likes.Count)
-                    .Select(WorkPublicListViewModel.FromWork);
+       // [OutputCache(Duration = 60 * 60)]
+        public ActionResult Statistics()
+        {
+            return PartialView("_Statistics", this.homeServices.GetStatistics());
+        }
 
-                var statistics = new HomePageStatisticsModel
-                {
-                    NumberOfAuthors = allAuthorsForStatistics,
-                    NumberOfGenres = allGenresForStatistics,
-                    NumberOfUsers = allUsersForStatistics,
-                    NumberOfWorks = allWorksForStatistics
-                };
+      //  [OutputCache(Duration = 60 * 60)]
+        public ActionResult TopWorks()
+        {
+            return PartialView("_TopRatedWorks", this.homeServices.GetTopRatedWorks(6));
+        }
 
-                HomePageModel homePageViewModel = new HomePageModel
-                {
-                    Statistics = statistics,
-                    GenreBooks = genres,
-                    MostPopularWorks = mostPopularWorks,
-                    TopUsers = topUsers
-                };
-
-                this.HttpContext.Cache.Add("HomePageData", homePageViewModel, null, DateTime.Now.AddHours(1), TimeSpan.Zero, CacheItemPriority.Default, null);
-            }
-
-            return this.View(this.HttpContext.Cache["HomePageData"]);
+     //  [OutputCache(Duration = 60 * 60)]
+        public ActionResult Genres()
+        {
+            return PartialView("_GenresAndWorks", this.homeServices.AllGenres());
         }
     }
 }
