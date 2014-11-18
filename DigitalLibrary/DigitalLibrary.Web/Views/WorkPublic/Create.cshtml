@@ -9,38 +9,23 @@
 <div class="jumbotron row">
     @using (Html.BeginForm("Upload", ControllerName, FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
+
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
-        <div class="col-lg-5">
+        <div class="col-lg-7">
             <div>
-                <strong>@Html.LabelFor(m => m.Title, "Title: ", new { id = "title-input" })</strong>
-                @Html.EditorFor(m => m.Title, new { @class = "input-small" })
-                @Html.ValidationMessageFor(m => m.Title, String.Empty, new { @class = "help-inline", @style = "color:red" })
+                @Html.EditorFor(m => m.Title)
             </div>
             <div>
-                <strong>@Html.LabelFor(m => m.Description, "Description: ")</strong>
-                @Html.TextArea("Description", new { @class = "form-control", id = "heigth-fixed" })
-                @Html.ValidationMessageFor(m => m.Description, String.Empty, new { @class = "help-inline", @style = "color:red" })
+                @Html.EditorFor(m => m.Description)
+            </div>
+            <div>
+                @Html.EditorFor(m => m.GenreId, new { ListItem = Model.Genres })
+                @Html.EditorFor(m => m.AuthorId, new { ListItem = Model.Authors })
+                @Html.EditorFor(m => m.Year, new { ListItem = Model.Years })
             </div>
         </div>
-        <div class="col-lg-4">
-            <div>
-                <strong>@Html.LabelFor(m => m.Year, "Year : ")</strong>
-                @Html.DropDownList("Year")
-                @Html.ValidationMessageFor(m => m.Year, String.Empty, new { @class = "help-inline", @style = "color:red" })
-            </div>
-            <div>
-                <strong>
-                    @Html.LabelFor(m => m.Genre, "Genre : ")
-                </strong>
-                @Html.DropDownList("Genre")
-            </div>
-            <div id="authors-dropdown-container">
-                <strong>
-                    @Html.LabelFor(m => m.Author, "Author name: ")
-                </strong>
-                @Html.DropDownList("Author")
-            </div>
+        <div class="col-lg-5">
             <div>
                 <strong>
                     Select Work Picture :
@@ -52,7 +37,7 @@
                 <input type="file" name="files" accept=".zip , .rar" />
             </div>
             <div>
-                <input type="submit" name="upload" id="upload-file" />
+                <input type="submit" name="upload" id="upload-file" value="Upload" class="btn btn-primary" />
             </div>
         </div>
     }
@@ -74,32 +59,34 @@
         </div>
     </div>
 </div>
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 
-<script>
-    (function () {
-        var isShown = false;
-        $('#show-createAuthor-form').on('click', function () {
-            isShown = !isShown;
-            if (isShown) {
-                $('#createauthor-form').show();
+    <script>
+        (function () {
+            var isShown = false;
+            $('#show-createAuthor-form').on('click', function () {
+                isShown = !isShown;
+                if (isShown) {
+                    $('#createauthor-form').show();
+                }
+                else {
+                    $('#createauthor-form').hide();
+                }
+            })
+        }())
+
+        $("#upload-file").click(function () {
+            var fileName = $("#file-picture").val();
+            if ((fileName.lastIndexOf("png") === fileName.length - 3)
+                || (fileName.lastIndexOf("jpg") === fileName.length - 3)
+                || (fileName.lastIndexOf("jpeg") === fileName.length - 4)) {
+
             }
             else {
-                $('#createauthor-form').hide();
+                alert("First file is not image");
             }
         })
-    }())
-
-    $("#upload-file").click(function () {
-        var fileName = $("#file-picture").val();
-        if ((fileName.lastIndexOf("png") === fileName.length - 3)
-            || (fileName.lastIndexOf("jpg") === fileName.length - 3)
-            || (fileName.lastIndexOf("jpeg") === fileName.length - 4)) {
-
-        }
-        else {
-            alert("First file is not image");
-        }
-    })
-</script>
-
+    </script>
+}
 

@@ -6,12 +6,12 @@
 
     using AutoMapper;
 
-    using Kendo.Mvc.Extensions;
-    using Kendo.Mvc.UI;
-
     using DigitalLibrary.Data;
     using DigitalLibrary.Data.Contracts;
     using DigitalLibrary.Web.Areas.Administration.ViewModels.Base;
+
+    using Kendo.Mvc.Extensions;
+    using Kendo.Mvc.UI;
 
     public abstract class KendoGridCRUDController : AdminController
     {
@@ -64,7 +64,7 @@
         [NonAction]
         protected virtual void Destroy<T>(object id) where T : class
         {
-            if (id != null && ModelState.IsValid)
+            if (id != null)
             {
                 var dbModel = this.GetById<T>(id);
                 this.ChangeEntityStateAndSave(dbModel, EntityState.Deleted);

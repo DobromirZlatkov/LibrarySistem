@@ -4,10 +4,10 @@
     using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using DigitalLibrary.Data.Logic;
+
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-
-    using DigitalLibrary.Data.Logic;
 
     public class User : IdentityUser
     {

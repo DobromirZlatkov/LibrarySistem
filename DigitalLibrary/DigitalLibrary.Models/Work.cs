@@ -1,9 +1,10 @@
 ﻿namespace DigitalLibrary.Models
 {
-    using DigitalLibrary.Data.Contracts;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+
+    using DigitalLibrary.Data.Contracts;
 
     public class Work : DeletableEntity
     {
@@ -36,12 +37,10 @@
         [DefaultValue("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSQDIgjwuK3j9gJAGrIX6HlVnjoA6OL2qPhQRxlq0GjHxG88HvTX6BsDoz_")]
         public string PictureLink { get; set; }
 
-        //[Required]
         public int AuthorId { get; set; }
 
         public virtual Author Author { get; set; }
 
-        //[Required]
         public string UploadedById { get; set; }
 
         public virtual User UploadedBy { get; set; }

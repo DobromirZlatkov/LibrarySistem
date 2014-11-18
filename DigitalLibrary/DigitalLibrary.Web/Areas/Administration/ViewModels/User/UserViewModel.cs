@@ -1,15 +1,14 @@
-﻿using DigitalLibrary.Models;
-using DigitalLibrary.Web.Areas.Administration.ViewModels.Base;
-using DigitalLibrary.Web.Infrastructure.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Web;
-using System.Web.Mvc;
-
-namespace DigitalLibrary.Web.Areas.Administration.ViewModels.Users
+﻿namespace DigitalLibrary.Web.Areas.Administration.ViewModels.Users
 {
+    using System;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Web.Mvc;
+
+    using DigitalLibrary.Models;
+    using DigitalLibrary.Web.Areas.Administration.ViewModels.Base;
+    using DigitalLibrary.Web.Infrastructure.Mapping;
+
     public class UserViewModel : AdministrationViewModel, IMapFrom<User>
     {
         public static Expression<Func<User, UserViewModel>> FromUser

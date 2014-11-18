@@ -6,18 +6,20 @@ namespace DigitalLibrary.Web.App_Start
     using System;
     using System.Web;
 
+    using DigitalLibrary.Data;
+    using DigitalLibrary.Web.Infrastructure.Cashing;
+    using DigitalLibrary.Web.Infrastructure.Populators;
+    using DigitalLibrary.Web.Infrastructure.Services;
+    using DigitalLibrary.Web.Infrastructure.Services.Contracts;
+
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
     using Ninject;
     using Ninject.Web.Common;
-    using DigitalLibrary.Data;
-    using DigitalLibrary.Web.Infrastructure.Services.Contracts;
-    using DigitalLibrary.Web.Infrastructure;
-    using DigitalLibrary.Web.Infrastructure.Services;
 
     public static class NinjectWebCommon 
     {
-        private static readonly Bootstrapper bootstrapper = new Bootstrapper();
+        private static readonly Bootstrapper Bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
@@ -26,7 +28,7 @@ namespace DigitalLibrary.Web.App_Start
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            bootstrapper.Initialize(CreateKernel);
+            Bootstrapper.Initialize(CreateKernel);
         }
         
         /// <summary>
@@ -34,7 +36,7 @@ namespace DigitalLibrary.Web.App_Start
         /// </summary>
         public static void Stop()
         {
-            bootstrapper.ShutDown();
+            Bootstrapper.ShutDown();
         }
         
         /// <summary>
@@ -73,6 +75,9 @@ namespace DigitalLibrary.Web.App_Start
             kernel.Bind<ICommentService>().To<CommentService>();
             kernel.Bind<ILikeService>().To<LikeService>();
             kernel.Bind<ITrustedUserService>().To<TrustedUserService>();
+            kernel.Bind<IWorkService>().To<WorkService>();
+            kernel.Bind<ICacheService>().To<InMemoryCache>();
+            kernel.Bind<IDropDownListPopulator>().To<DropDownListPopulator>();
         }        
     }
 }

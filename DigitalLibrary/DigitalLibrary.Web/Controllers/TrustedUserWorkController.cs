@@ -1,22 +1,19 @@
 ﻿namespace DigitalLibrary.Web.Controllers
 {
     using System.Collections;
-    using System.Linq;
     using System.Web.Mvc;
+
+    using DigitalLibrary.Data;
+    using DigitalLibrary.Models;
+    using DigitalLibrary.Web.Areas.Administration.Controllers.Base;
+    using DigitalLibrary.Web.Infrastructure.Services.Contracts;
+    using DigitalLibrary.Web.ViewModels.Work;
 
     using Kendo.Mvc.UI;
 
-    using DigitalLibrary.Data;
-    using DigitalLibrary.Data.Logic;
-    using DigitalLibrary.Models;
-    using DigitalLibrary.Web.Areas.Administration.Controllers.Base;
-    using DigitalLibrary.Web.ViewModels.Work;
-    using DigitalLibrary.Web.Infrastructure.Services.Contracts;
-
-   // [Authorize(Roles = "trusted")]
+    [Authorize(Roles = "trusted")]
     public class TrustedUserWorkController : KendoGridCRUDController
     {
-     
         private ITrustedUserService trustedUserServices;
 
         public TrustedUserWorkController(IDigitalLibraryData data, ITrustedUserService trustedUserServices)

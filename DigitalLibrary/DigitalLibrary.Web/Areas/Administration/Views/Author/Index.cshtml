@@ -12,9 +12,7 @@
         {
             cols.Bound(pr => pr.Id);
             cols.Bound(pr => pr.Name);
-           // cols.Bound(pr => pr.Works);
             cols.Bound(pr => pr.CreatedOn).Hidden();
-           // cols.Bound(pr => pr.ModifiedOn).Hidden();
             cols.Command(com => com.Edit()).Title("Промяна");
             cols.Command(com => com.Destroy()).Title("Изтриване");
         })

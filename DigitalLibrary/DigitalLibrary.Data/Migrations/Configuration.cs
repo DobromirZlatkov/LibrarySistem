@@ -1,8 +1,5 @@
 ﻿namespace DigitalLibrary.Data.Migrations
 {
-    using DigitalLibrary.Models;
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
@@ -10,8 +7,8 @@
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            this.AutomaticMigrationsEnabled = true;
+            this.AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(DigitalLibraryDbContext context)
@@ -20,6 +17,7 @@
             {
                 return;
             }
+
             context.Roles.Add(new Microsoft.AspNet.Identity.EntityFramework.IdentityRole()
             {
                 Name = "trusted"
@@ -32,8 +30,8 @@
             {
                 Name = "non-trusted"
             });
-            context.SaveChanges();
 
+            context.SaveChanges();
         }
     }
 }

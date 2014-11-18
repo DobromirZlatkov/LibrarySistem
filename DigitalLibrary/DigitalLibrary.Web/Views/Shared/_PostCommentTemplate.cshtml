@@ -5,6 +5,10 @@
     {
         @Html.Hidden("WorkId", Model)
         @Html.TextArea("Content", new { id = "comment-content-textarea", @class = "form-control" })
+
+        @*@Html.HiddenFor(m => m.TicketId)
+        @Html.EditorFor(m => m.Content)*@
+
         @Html.AntiForgeryToken()
         <input type="submit" value="Submit comment" class="btn btn-primary" />
     }

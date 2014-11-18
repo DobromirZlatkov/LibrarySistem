@@ -211,11 +211,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Cashing\ICacheService.cs" />
+    <Compile Include="Infrastructure\Cashing\InMemoryCache.cs" />
     <Compile Include="Infrastructure\Helpers\HtmlExtensions.cs" />
+    <Compile Include="Infrastructure\Populators\DropDownListPopulator.cs" />
+    <Compile Include="Infrastructure\Populators\IDropDownListPopulator.cs" />
     <Compile Include="Infrastructure\Services\CommentService.cs" />
     <Compile Include="Infrastructure\Services\Contracts\ICommentService.cs" />
     <Compile Include="Infrastructure\Services\Contracts\ILikeService.cs" />
     <Compile Include="Infrastructure\Services\Contracts\ITrustedUserService.cs" />
+    <Compile Include="Infrastructure\Services\Contracts\IWorkService.cs" />
     <Compile Include="Infrastructure\Services\HomeServices.cs" />
     <Compile Include="Infrastructure\Mapping\AutoMapperConfig.cs" />
     <Compile Include="Infrastructure\Mapping\IHaveCustomMappings.cs" />
@@ -226,6 +231,7 @@
     <Compile Include="Infrastructure\Services\Contracts\IHomeServices.cs" />
     <Compile Include="Infrastructure\Services\LikeService.cs" />
     <Compile Include="Infrastructure\Services\TrustedUserService.cs" />
+    <Compile Include="Infrastructure\Services\WorkService.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\Author\AuthorPublicCreateModel.cs" />
     <Compile Include="ViewModels\Author\AuthorPublicListViewModel.cs" />
@@ -486,6 +492,35 @@
     <Content Include="Content\kendo\HighContrast\Thumbs.db" />
     <Content Include="Content\kendo\images\kendoui.ttf" />
     <Content Include="Content\kendo\images\kendoui.woff" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\Currency.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\DateTime.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\DropDownList.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\Email.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\EmailAddress.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\Enum.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\GridForeignKey.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\Integer.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\MultiLinetext.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\Number.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\Password.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\SingleLineText.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\String.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\Time.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\EditorTemplates\Url.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\Boolean.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\Collection.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\Decimal.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\DisplaySection.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\Double.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\EmailAddress.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\Float.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\HiddenInput.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\Html.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\Object.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\String.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\Text.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\Url.cshtml" />
+    <Content Include="Areas\Administration\Views\Shared\DisplayTemplates\DateTime.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1148,14 +1183,16 @@
     <Content Include="Views\Home\_TopRatedWorks.cshtml" />
     <Content Include="Views\Home\_GenresAndWorks.cshtml" />
     <Content Include="Views\LikePublic\_LikeControllerPartial.cshtml" />
-    <Content Include="Views\CommentPublic\_PostCommentTemplate.cshtml" />
+    <Content Include="Views\Shared\_PostCommentTemplate.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DropDownList.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\MultiLineText.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SingleLineText.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Administration\Models\" />
     <Folder Include="Areas\Administration\Views\KendoGridAdministration\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

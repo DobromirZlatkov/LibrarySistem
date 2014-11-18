@@ -1,23 +1,16 @@
 ﻿namespace DigitalLibrary.Web.Areas.Administration.Controllers
 {
-    using System;
-    using System.Web.Mvc;
     using System.Collections;
-
-    using Kendo.Mvc.UI;
-    using Kendo.Mvc.Extensions;
+    using System.Linq;
+    using System.Web.Mvc;
 
     using DigitalLibrary.Data;
     using DigitalLibrary.Web.Areas.Administration.Controllers.Base;
     using DigitalLibrary.Web.Areas.Administration.ViewModels.Authors;
-    using DigitalLibrary.Web.Infrastructure.Mapping;
-    using DigitalLibrary.Models;
 
+    using Kendo.Mvc.UI;
     using Model = DigitalLibrary.Models.Author;
     using ViewModel = DigitalLibrary.Web.Areas.Administration.ViewModels.Authors.AuthorViewModel;
-    using System.Linq;
-    using AutoMapper;
-
 
     public class AuthorController : KendoGridCRUDController
     {
@@ -28,17 +21,7 @@
 
         public ActionResult Index()
         {
-            return View();
-        }
-
-        protected override IEnumerable GetData()
-        {
-            return this.Data.Authors.All().Select(AuthorViewModel.FromAuthor);
-        }
-
-        protected override T GetById<T>(object id)
-        {
-            return this.Data.Authors.GetById(id) as T;
+            return this.View();
         }
 
         [HttpPost]
@@ -75,19 +58,18 @@
                 this.Data.Authors.Delete(model.Id.Value);
                 this.Data.SaveChanges();
             }
-            //var author = this.Data.Authors.GetById(model.Id.Value);
-
-            //foreach (var work in author.Works)
-            //{
-            //    foreach (var comment in work.Comments)
-            //    {
-            //        base.Destroy<Comment>(comment.Id);
-            //    }
-            //    base.Destroy<Work>(work.Id);
-            //}
-            //base.Destroy<Model>(model.Id);
 
             return this.GridOperation(model, request);
+        }
+
+        protected override IEnumerable GetData()
+        {
+            return this.Data.Authors.All().Select(AuthorViewModel.FromAuthor);
+        }
+
+        protected override T GetById<T>(object id)
+        {
+            return this.Data.Authors.GetById(id) as T;
         }
     }
 }

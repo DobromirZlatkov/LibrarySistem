@@ -5,8 +5,8 @@
 
     using DigitalLibrary.Data;
     using DigitalLibrary.Models;
-    using DigitalLibrary.Web.ViewModels.Like;
     using DigitalLibrary.Web.Infrastructure.Services.Contracts;
+    using DigitalLibrary.Web.ViewModels.Like;
     using DigitalLibrary.Web.ViewModels.Work;
 
     public class LikePublicController : BaseController
@@ -30,13 +30,12 @@
             viewModel.WorkId = work.Id;
             viewModel.LikeCount = work.LikesCount;
 
-            return PartialView("_LikeControllerPartial", viewModel);
+            return this.PartialView("_LikeControllerPartial", viewModel);
         }
-
 
         public ActionResult Action(LikeSubmitModel like)
         {
-            var workVotedFor = likeServices.ExtecuteLikeOrDislikeAction(like, this.CurrentUser);
+            var workVotedFor = this.likeServices.ExtecuteLikeOrDislikeAction(like, this.CurrentUser);
             var positiveMinusNegativeLikes = CalculateCountRate(workVotedFor);
 
             return this.Content(positiveMinusNegativeLikes.ToString());

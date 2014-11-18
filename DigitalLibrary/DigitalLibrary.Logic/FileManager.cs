@@ -1,20 +1,11 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using System.IO;
-using System.IO.Compression;
-
-namespace DigitalLibrary.Data.Logic
+﻿namespace DigitalLibrary.Data.Logic
 {
+    using System.IO;
+    using System.Linq;
+    using System.Web;
+
     public static class FileManager
     {
-
         public static void DeleteFile(string path)
         {
             var folders = path.Split('\\').ToList();
@@ -36,13 +27,11 @@ namespace DigitalLibrary.Data.Logic
             }
         }
 
-
         public static bool CheckIfFileExists(string filePath)
         {
             var path = HttpContext.Current.Server.MapPath("~/" + filePath);
             var test2 = @"C:\Users\Dobri\Desktop\GitProjects\Library\DigitalLibrary\DigitalLibrary.Web\UploadedFiles\arheologiq\papuy\works\gfdsdgsd\gfdsdgsd";
             var test = File.Exists(test2);
-            
 
             return File.Exists(HttpContext.Current.Server.MapPath("~/" + filePath));
         }
@@ -82,7 +71,6 @@ namespace DigitalLibrary.Data.Logic
                 }
                 else if (CheckIfFileIsZipped(file))
                 {
-
                     var fileSaveName = fileName + extension;
 
                     var path = Path.Combine(HttpContext.Current.Server.MapPath("~/" + uploadPath + "/"), fileSaveName);
@@ -111,9 +99,9 @@ namespace DigitalLibrary.Data.Logic
         public static bool CheckIfFile(HttpPostedFileBase file)
         {
             if (file != null)
-	        {
+            {
                 return true;
-	        }
+            }
             else
             {
                 return false;
@@ -126,8 +114,7 @@ namespace DigitalLibrary.Data.Logic
             extension = extension.ToLower();
 
             if (extension == ".zip"
-                || extension == ".rar"
-                )
+                || extension == ".rar")
             {
                 return true;
             }

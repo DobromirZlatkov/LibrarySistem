@@ -1,21 +1,16 @@
 ﻿namespace DigitalLibrary.Data
 {
+    using System;
+    using System.Data.Entity;
+    using System.Linq;
+
     using DigitalLibrary.Data.Contracts;
     using DigitalLibrary.Data.Contracts.CodeFirstConventions;
     using DigitalLibrary.Data.Migrations;
     using DigitalLibrary.Models;
-    using Microsoft.AspNet.Identity.EntityFramework;
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity;
-    using System.Globalization;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Microsoft.AspNet.Identity;
-    using System.Web.Mvc;
-    using System.Data.Entity.Validation;
 
+    using Microsoft.AspNet.Identity.EntityFramework;
+ 
     public class DigitalLibraryDbContext : IdentityDbContext<User>, IDigitalLibraryDbContext
     {
         public DigitalLibraryDbContext()
@@ -47,6 +42,11 @@
             }
         }
 
+        public static DigitalLibraryDbContext Create()
+        {
+            return new DigitalLibraryDbContext();
+        }
+
         public override int SaveChanges()
         {
             this.ApplyAuditInfoRules();
@@ -59,23 +59,11 @@
             return base.Set<T>();
         }
 
-        public static DigitalLibraryDbContext Create()
-        {
-            return new DigitalLibraryDbContext();
-        }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Add(new IsUnicodeAttributeConvention());
 
-            //modelBuilder.Entity<Author>()
-            //    .HasMany(w =>w.Works)
-            //    .WithOptional(i => i.Author)
-            //    .HasForeignKey(i => i.AuthorId)
-            // .WillCascadeOnDelete(true);
-
             base.OnModelCreating(modelBuilder);
-
         }
 
         protected override void Dispose(bool disposing)
@@ -102,17 +90,13 @@
                 }
                 else
                 {
-                    //var format = "yyyy-MM-dd HH:mm:ss:fff";
-                    //var stringDate = DateTime.Now.ToString(format);
-                    //entity.ModifiedOn = DateTime.ParseExact(stringDate, format, CultureInfo.InvariantCulture);
                     entity.ModifiedOn = DateTime.Now;
                 }
             }
         }
 
         private void ApplyDeletableEntityRules()
-        {
-            // Approach via @julielerman: http://bit.ly/123661P
+        { 
             foreach (
                 var entry in
                     this.ChangeTracker.Entries()

@@ -2,11 +2,9 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq.Expressions;
     using System.Web.Mvc;
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    using AutoMapper;
 
     using DigitalLibrary.Models;
     using DigitalLibrary.Web.Areas.Administration.ViewModels.Base;
@@ -35,6 +33,8 @@
         public int? Id { get; set; }
 
         [Editable(true)]
+        [UIHint("MultiLinetext")]
+        [Display(Name = "Content")]
         public string Content { get; set; }
 
         [Editable(false)]
@@ -49,6 +49,5 @@
         [Editable(false)]
         [HiddenInput(DisplayValue = false)]
         public string Work { get; set; }
-
     }
 }

@@ -57,7 +57,6 @@
             return mostPopularWorks;
         }
 
-
         public IList<GenrePublicViewModel> AllGenres()
         {
             var genres = this.Data.Genres

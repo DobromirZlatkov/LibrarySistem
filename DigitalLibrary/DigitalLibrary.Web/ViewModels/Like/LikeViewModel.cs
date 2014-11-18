@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace DigitalLibrary.Web.ViewModels.Like
+﻿namespace DigitalLibrary.Web.ViewModels.Like
 {
     public class LikeViewModel
     {

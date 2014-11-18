@@ -1,4 +1,4 @@
-﻿@using DigitalLibrary.Models
+﻿@*@using DigitalLibrary.Models
 @{
     ViewBag.Title = "User";
     const string ControllerName = "User";
@@ -10,7 +10,7 @@
         .Name("grid")
         .Columns(cols =>
         {
-           cols.Bound(pr => pr.Id);
+            cols.Bound(pr => pr.Id);
             cols.Bound(pr => pr.Email).Title("Email");
             cols.Bound(pr => pr.NegativeUploads).Title("Отрицателни качвания");
             cols.Bound(pr => pr.PositiveUploads).Title("Положителни качвания");
@@ -29,4 +29,49 @@
                 .Model(m => m.Id(adv => adv.Id))
                 .Read(read => read.Action("Read", ControllerName))
                 .Destroy(destroy => destroy.Action("Destroy", ControllerName))
-                ))
+                ))*@
+@using DigitalLibrary.Models;
+@{
+    ViewBag.Title = "User";
+    const string ControllerName = "User";
+}
+
+<h2>@ViewBag.Title</h2>
+@(Html.Kendo()
+            .Grid<User>()
+        .Name("grid")
+        .Columns(cols =>
+        {
+            cols.Bound(pr => pr.Id);
+            cols.Bound(pr => pr.Email).Title("Email");
+            cols.Bound(pr => pr.NegativeUploads).Title("Отрицателни качвания");
+            cols.Bound(pr => pr.PositiveUploads).Title("Положителни качвания");
+            cols.Bound(pr => pr.Roles);
+            cols.Bound(pr => pr.UserName);
+            cols.Command(com => com.Destroy()).Title("Изтриване");
+        })
+        .ColumnMenu()
+        .Pageable(page => page.Refresh(true))
+        .Sortable()
+        .Groupable()
+        .Filterable()
+        .Editable(edit => edit.Mode(GridEditMode.PopUp))
+        .DataSource(data =>
+            data
+                .Ajax()
+                .Model(m =>
+                     {
+                         m.Id(adv => adv.Id);
+                     })
+                    .Model(m => m.Id(adv => adv.Id))
+                    .Read(read => read.Action("Read", ControllerName))
+                    .Destroy(destroy => destroy.Action("Destroy", ControllerName))
+                )
+)
+
+<script type="text/javascript">
+
+    $("table").find('tr').addClass("table-row-size");
+
+</script>
+

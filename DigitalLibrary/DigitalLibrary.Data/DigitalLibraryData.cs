@@ -1,12 +1,12 @@
-﻿using DigitalLibrary.Data.Contracts;
-using DigitalLibrary.Data.Repositories.Base;
-using DigitalLibrary.Models;
-using DigitalLibrary.Data;
-using System;
-using System.Collections.Generic;
-
-namespace DigitalLibrary.Data
+﻿namespace DigitalLibrary.Data
 {
+    using System;
+    using System.Collections.Generic;
+
+    using DigitalLibrary.Data.Contracts;
+    using DigitalLibrary.Data.Repositories.Base;
+    using DigitalLibrary.Models;
+
     public class DigitalLibraryData : IDigitalLibraryData
     {
         private readonly IDigitalLibraryDbContext context;
@@ -25,16 +25,6 @@ namespace DigitalLibrary.Data
                 return this.context;
             }
         }
-
-        //public IRepository<T> GetGenericRepository<T>() where T : class
-        //{
-        //    if (typeof(T).IsAssignableFrom(typeof(DeletableEntity)))
-        //    {
-        //        return this.GetDeletableEntityRepository<T>();
-        //    }
-
-        //    return this.GetRepository<T>();
-        //}
 
         public IRepository<User> Users
         {

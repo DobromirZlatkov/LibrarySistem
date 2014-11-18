@@ -1,25 +1,36 @@
 namespace DigitalLibrary.Web.ViewModels.Work
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
 
     public class WorkPublicCreateViewModel
     {
         [Required]
         [StringLength(100, MinimumLength = 5, ErrorMessage = "Use 5-100 characters")]
+        [UIHint("SingleLineText")]
         public string Title { get; set; }
 
-        [StringLength(400, MinimumLength = 5, ErrorMessage = "Use 5-400 characters")]
+        [StringLength(1000, MinimumLength = 5, ErrorMessage = "Use 5-1000 characters")]
+        [UIHint("MultiLineText")]
         public string Description { get; set; }
 
-        [Required]
-        [Range(1700, 2020, ErrorMessage = "Year has to be between 1700 and 2020")]
+        [Display(Name = "Year")]
+        [UIHint("DropDownList")]
         public int Year { get; set; }
 
-        [Required]
-        public string Author { get; set; }
+        [Display(Name = "Author")]
+        [UIHint("DropDownList")]
+        public int AuthorId { get; set; }
 
-        [Required]
-        public string Genre { get; set; }
+        [Display(Name = "Genre")]
+        [UIHint("DropDownList")]
+        public int GenreId { get; set; }
 
+        public IEnumerable<SelectListItem> Years { get; set; }
+
+        public IEnumerable<SelectListItem> Authors { get; set; }
+
+        public IEnumerable<SelectListItem> Genres { get; set; }
     }
 }

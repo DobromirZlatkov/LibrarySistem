@@ -5,12 +5,13 @@
     using System.Web.Mvc;
 
     using AutoMapper;
-    using Kendo.Mvc.UI;
 
     using DigitalLibrary.Data;
     using DigitalLibrary.Data.Logic;
     using DigitalLibrary.Web.Areas.Administration.Controllers.Base;
-  
+
+    using Kendo.Mvc.UI;
+
     using EditModel = DigitalLibrary.Web.Areas.Administration.ViewModels.Works.WorkEditModel;
     using Model = DigitalLibrary.Models.Work;
     using ViewModel = DigitalLibrary.Web.Areas.Administration.ViewModels.Works.WorkViewModel;
@@ -24,17 +25,7 @@
 
         public ActionResult Index()
         {
-            return View();
-        }
-
-        protected override IEnumerable GetData()
-        {
-            return this.Data.Works.All().Select(ViewModel.FromWork);
-        }
-
-        protected override T GetById<T>(object id)
-        {
-            return this.Data.Works.GetById(id) as T;
+            return this.View();
         }
 
         [HttpPost]
@@ -76,6 +67,16 @@
             }
 
             return this.GridOperation(model, request);
+        }
+
+        protected override IEnumerable GetData()
+        {
+            return this.Data.Works.All().Select(ViewModel.FromWork);
+        }
+
+        protected override T GetById<T>(object id)
+        {
+            return this.Data.Works.GetById(id) as T;
         }
     }
 }

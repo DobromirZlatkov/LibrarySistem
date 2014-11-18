@@ -1,14 +1,13 @@
 ﻿namespace DigitalLibrary.Web.Areas.Administration.ViewModels.Genres
 {
-    using System.Web.Mvc;
+    using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Collections.Generic;
+    using System.Linq.Expressions;
+    using System.Web.Mvc;
 
     using DigitalLibrary.Models;
     using DigitalLibrary.Web.Areas.Administration.ViewModels.Base;
     using DigitalLibrary.Web.Infrastructure.Mapping;
-    using System.Linq.Expressions;
-    using System;
 
     public class GenreViewModel : AdministrationViewModel, IMapFrom<Genre>
     {
@@ -29,9 +28,8 @@
         [HiddenInput(DisplayValue = false)]
         public int? Id { get; set; }
 
-        [Display(Name = "Име")]
-     //   [Required]
-        //[StringLength(100, MinimumLength = 3)]
+        [UIHint("SingleLineText")]
+        [Display(Name = "Name")]
         public string GenreName { get; set; }
     }
 }

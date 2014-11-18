@@ -1,9 +1,10 @@
 ﻿namespace DigitalLibrary.Web.ViewModels.Home
 {
+    using System.Collections.Generic;
+
     using DigitalLibrary.Web.ViewModels.Genre;
     using DigitalLibrary.Web.ViewModels.Users;
     using DigitalLibrary.Web.ViewModels.Work;
-    using System.Collections.Generic;
 
     public class HomePageModel
     {

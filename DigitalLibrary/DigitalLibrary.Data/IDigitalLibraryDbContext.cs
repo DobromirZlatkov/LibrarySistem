@@ -1,8 +1,9 @@
 ﻿namespace DigitalLibrary.Data
 {
-    using DigitalLibrary.Models;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+
+    using DigitalLibrary.Models;
 
     public interface IDigitalLibraryDbContext
     {

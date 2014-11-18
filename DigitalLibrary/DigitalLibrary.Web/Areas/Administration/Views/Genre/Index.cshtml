@@ -13,7 +13,7 @@
             cols.Bound(pr => pr.Id);
             cols.Bound(pr => pr.GenreName);
             cols.Bound(pr => pr.CreatedOn).Hidden();
-            //cols.Bound(pr => pr.ModifiedOn).Hidden();
+            cols.Bound(pr => pr.ModifiedOn).Hidden();
             cols.Command(com => com.Edit()).Title("Промяна");
             cols.Command(com => com.Destroy()).Title("Изтриване");
         })

@@ -1,10 +1,11 @@
 ﻿namespace DigitalLibrary.Models
 {
-    using DigitalLibrary.Data.Contracts;
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
+    using DigitalLibrary.Data.Contracts;
+  
     public class Comment : DeletableEntity
     {
         [Key]

@@ -53,10 +53,6 @@ namespace DigitalLibrary.Web.ViewModels.Work
 
         public string Genre { get; set; }
 
-        private int PositiveLikes { get; set; }
-
-        private int NegativeLikes { get; set; }
-
         public IEnumerable<CommentPublicViewModel> Comments { get; set; }
 
         public int LikesCount
@@ -66,6 +62,9 @@ namespace DigitalLibrary.Web.ViewModels.Work
                 return this.PositiveLikes - this.NegativeLikes;
             }
         }
-   
+
+        private int PositiveLikes { get; set; }
+
+        private int NegativeLikes { get; set; }
     }
 }

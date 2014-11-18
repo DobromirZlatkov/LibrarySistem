@@ -1,15 +1,11 @@
 ﻿namespace DigitalLibrary.Web.ViewModels.Work
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Web;
-    using System.Reflection;
-    using System.IO;
 
     using DigitalLibrary.Models;
-    using System.ComponentModel.DataAnnotations;
-   
 
     public class WorkPublicListViewModel
     {
@@ -58,13 +54,6 @@
         public bool IsApproved { get; set; }
 
         [Editable(false)]
-        private int PositiveLikes { get; set; }
-
-        [Editable(false)]
-        private int NegativeLikes { get; set; }
-
-
-        [Editable(false)]
         public int LikesCount
         {
             get
@@ -73,5 +62,10 @@
             }
         }
 
+        [Editable(false)]
+        private int PositiveLikes { get; set; }
+
+        [Editable(false)]
+        private int NegativeLikes { get; set; }
     }
 }

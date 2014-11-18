@@ -1,20 +1,20 @@
-﻿using System.Web;
-using System.Web.Optimization;
-
-namespace DigitalLibrary.Web
+﻿namespace DigitalLibrary.Web
 {
+    using System.Web;
+    using System.Web.Optimization;
+
     public class BundleConfig
     {
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
            // bundles.IgnoreList.Clear();
-
             RegisterScriptBundles(bundles);
             RegisterStyleBundles(bundles);
 
             BundleTable.EnableOptimizations = false;
         }
+
         private static void RegisterStyleBundles(BundleCollection bundles)
         {
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -49,7 +49,6 @@ namespace DigitalLibrary.Web
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
-
         }
     }
 }

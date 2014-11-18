@@ -1,9 +1,9 @@
 ﻿namespace DigitalLibrary.Web.ViewModels.Genre
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Expressions;
-    using System.Collections.Generic;
 
     using DigitalLibrary.Models;
     using DigitalLibrary.Web.ViewModels.Work;

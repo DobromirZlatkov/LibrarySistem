@@ -1,10 +1,11 @@
 ﻿namespace DigitalLibrary.Data
 {
     using System.Collections.Generic;
-    using Microsoft.AspNet.Identity;
-    using Microsoft.AspNet.Identity.EntityFramework;
 
     using DigitalLibrary.Models;
+
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
 
     public class IdentityManager
     {

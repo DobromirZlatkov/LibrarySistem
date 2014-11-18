@@ -1,18 +1,13 @@
 ﻿namespace DigitalLibrary.Web.Infrastructure.Services
 {
-    using System.Collections;
     using System.Linq;
-    using System.Web.Mvc;
-
-    using Kendo.Mvc.UI;
 
     using DigitalLibrary.Data;
     using DigitalLibrary.Data.Logic;
     using DigitalLibrary.Models;
-    using DigitalLibrary.Web.Areas.Administration.Controllers.Base;
+    using DigitalLibrary.Web.Controllers;
     using DigitalLibrary.Web.Infrastructure.Services.Contracts;
     using DigitalLibrary.Web.ViewModels.Work;
-    using DigitalLibrary.Web.Controllers;
 
     public class TrustedUserService : BaseController, ITrustedUserService
     {
@@ -32,14 +27,13 @@
 
             workToBeApprooved.IsApproved = true;
 
-            //this.Data.SaveChanges();
+            this.Data.SaveChanges();
 
             if (uploadedBy.Rating > TrustedRoleNeededRating && uploadedBy.PositiveUploads >= MinimumPositiveUploadsToBecomeTrusted)
             {
                 this.IdentityManager.AddUserToRole(uploadedBy.Id, "trusted");
             }
         }
-
 
         public void Destroy(Work workToBeDestroyed)
         {

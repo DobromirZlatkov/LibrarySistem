@@ -7,34 +7,26 @@
     using System.Web.Mvc;
     using System.Web.Routing;
 
-    using Microsoft.AspNet.Identity;
-
     using DigitalLibrary.Data;
     using DigitalLibrary.Models;
 
-   // [HandleError]
+    using Microsoft.AspNet.Identity;
+
+    //[HandleError]
     public abstract class BaseController : Controller
     {
-        protected IDigitalLibraryData Data { get; set; }
-
-        protected IdentityManager IdentityManager { get; set; }
-
-        protected User CurrentUser { get; private set; }
-
-        protected User test
-        {
-            get
-            {
-                return this.Data.Users.GetById(User.Identity.GetUserId());
-            }
-        }
-
         public BaseController(IDigitalLibraryData data)
         {
             this.Data = data;
             this.IdentityManager = new IdentityManager();
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
         }
+
+        protected IDigitalLibraryData Data { get; set; }
+
+        protected IdentityManager IdentityManager { get; set; }
+
+        protected User CurrentUser { get; private set; }
 
         protected override IAsyncResult BeginExecute(RequestContext requestContext, AsyncCallback callback, object state)
         {

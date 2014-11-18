@@ -1,16 +1,17 @@
-﻿using System;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
-using Owin;
-using DigitalLibrary.Web.ViewModels;
-using DigitalLibrary.Data;
-using DigitalLibrary.Models;
-
-namespace DigitalLibrary.Web
+﻿namespace DigitalLibrary.Web
 {
+    using System;
+
+    using DigitalLibrary.Data;
+    using DigitalLibrary.Models;
+
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin;
+    using Microsoft.Owin.Security.Cookies;
+
+    using Owin;
+
     public partial class Startup
     {
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864

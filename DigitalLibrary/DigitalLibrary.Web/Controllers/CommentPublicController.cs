@@ -1,18 +1,12 @@
 ﻿namespace DigitalLibrary.Web.Controllers
 {
-    using System;
     using System.Linq;
     using System.Net;
     using System.Web.Mvc;
-    using System.Collections;
-
-    using Microsoft.AspNet.Identity;
 
     using DigitalLibrary.Data;
-    using DigitalLibrary.Models;
-    using DigitalLibrary.Web.ViewModels.Comment;
     using DigitalLibrary.Web.Infrastructure.Services.Contracts;
-
+    using DigitalLibrary.Web.ViewModels.Comment;
 
     [Authorize]
     public class CommentPublicController : BaseController
@@ -31,7 +25,7 @@
         {
             if (ModelState.IsValid)
             {
-                var viewModel = commentServices.Create(commentModel, this.CurrentUser);
+                var viewModel = this.commentServices.Create(commentModel, this.CurrentUser);
 
                 return this.PartialView("_CommentPartial", viewModel);
             }
@@ -41,7 +35,7 @@
 
         public ActionResult PostCommentView(int workId)
         {
-            return PartialView("_PostCommentTemplate", workId);
+            return this.PartialView("_PostCommentTemplate", workId);
         }
     }
 }

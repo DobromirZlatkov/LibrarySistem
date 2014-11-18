@@ -1,11 +1,11 @@
 namespace DigitalLibrary.Web.ViewModels.Users
-{ 
-    ﻿using DigitalLibrary.Models;
+{
     using System;
     using System.Linq.Expressions;
 
-    public class UserPublicListViewModel
+    ﻿using DigitalLibrary.Models;
 
+    public class UserPublicListViewModel
     {
         public static Expression<Func<User, UserPublicListViewModel>> FromUser
         {

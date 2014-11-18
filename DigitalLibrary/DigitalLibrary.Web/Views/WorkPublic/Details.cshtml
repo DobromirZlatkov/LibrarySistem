@@ -5,12 +5,11 @@
 }
 <h2>@Model.Title</h2>
 <div class="row jumbotron">
-    <div class="col-lg-5 test">
+    <div class="col-lg-5" style="word-wrap:break-word">
         <div><strong>Author:</strong> @Model.AuthorName</div>
         <div><strong>Year:</strong> @Model.Year </div>
         <strong>Desctiption:</strong>
         <p id="desctiption-details-text">@Model.Description</p>
-
     </div>
     <div class="col-lg-offset-7">
         <a class="btn btn-info hoover-pop dowload-button" href="@Url.Action("DownLoad", "WorkPublic", new { @Model.Id })">
@@ -29,23 +28,10 @@
     {
         @Html.Partial("_CommentPartial", comment)
     }
-
 </div>
 
 <div>
-    @Html.Action("PostCommentView", "CommentPublic", new { WorkId = Model.Id })
-    
-    @*@if (User.Identity.IsAuthenticated)
-    {
-        using (Ajax.BeginForm("Create", "CommentPublic", new AjaxOptions { HttpMethod = "Post", InsertionMode = InsertionMode.InsertAfter, UpdateTargetId = "Comments", OnSuccess = "clearText", OnFailure = "commentPostFailure" }))
-        {
-            @Html.Hidden("WorkId", Model.Id)
-            @Html.TextArea("Content", new { id = "comment-content-textarea", @class = "form-control"})
-            @Html.AntiForgeryToken()
-            <input type="submit" value="Submit comment" class="btn btn-primary"  />
-        }
-    }*@
-
+   @Html.Partial("_PostCommentTemplate", Model.Id)    
 </div>
 @section scripts{
     <script>

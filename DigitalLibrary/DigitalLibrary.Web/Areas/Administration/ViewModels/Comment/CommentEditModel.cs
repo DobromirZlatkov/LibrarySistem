@@ -1,18 +1,18 @@
-﻿using AutoMapper;
-using DigitalLibrary.Models;
-using DigitalLibrary.Web.Areas.Administration.ViewModels.Base;
-using DigitalLibrary.Web.Infrastructure.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace DigitalLibrary.Web.Areas.Administration.ViewModels.Comments
+﻿namespace DigitalLibrary.Web.Areas.Administration.ViewModels.Comments
 {
+    using System.ComponentModel.DataAnnotations;
+
+    using DigitalLibrary.Models;
+    using DigitalLibrary.Web.Areas.Administration.ViewModels.Base;
+    using DigitalLibrary.Web.Infrastructure.Mapping;
+
+    using AutoMapper;
+
     public class CommentEditModel : AdministrationViewModel, IMapFrom<Comment>, IMapFrom<CommentViewModel>, IHaveCustomMappings
     {
         public int? Id { get; set; }
 
+        [UIHint("MultilineTextArea")]
         public string Content { get; set; }
 
         public void CreateMappings(IConfiguration configuration)
@@ -24,6 +24,5 @@ namespace DigitalLibrary.Web.Areas.Administration.ViewModels.Comments
                 .ForMember(m => m.ModifiedOn, opt => opt.MapFrom(c => c.ModifiedOn))
                 .ReverseMap();
         }
-
     }
 }

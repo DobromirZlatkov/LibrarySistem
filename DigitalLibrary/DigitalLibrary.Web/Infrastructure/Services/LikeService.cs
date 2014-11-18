@@ -1,13 +1,12 @@
 ﻿namespace DigitalLibrary.Web.Infrastructure.Services
 {
-    using System;
     using System.Linq;
 
+    using DigitalLibrary.Data;
     using DigitalLibrary.Models;
     using DigitalLibrary.Web.Controllers;
     using DigitalLibrary.Web.Infrastructure.Services.Contracts;
     using DigitalLibrary.Web.ViewModels.Like;
-    using DigitalLibrary.Data;
 
     public class LikeService : BaseController, ILikeService
     {
@@ -16,11 +15,11 @@
         {
         }
 
-        public Work ExtecuteLikeOrDislikeAction(LikeSubmitModel like, User CurrentUser)
+        public Work ExtecuteLikeOrDislikeAction(LikeSubmitModel like, User currentUser)
         {
-            var currentUserId = CurrentUser.Id;
+            var currentUserId = currentUser.Id;
             var workVotedFor = this.Data.Works.GetById(like.WorkId);
-            var IfCanLike = CheckIfUserCanLikeOrDislike(like.WorkId, currentUserId, like.LikeState);
+            var ifCanLike = this.CheckIfUserCanLikeOrDislike(like.WorkId, currentUserId, like.LikeState);
 
             if (like.LikeState == "like")
             {
@@ -48,7 +47,7 @@
                 LikedById = currentUserId,
                 WorkId = like.WorkId,
             };
-            if (IfCanLike)
+            if (ifCanLike)
             {
                 if (like.LikeState == "like")
                 {
@@ -58,6 +57,7 @@
                 {
                     newLike.IsPositive = false;
                 }
+
                 this.Data.Likes.Add(newLike);
                 this.Data.SaveChanges();
             }

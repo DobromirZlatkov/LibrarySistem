@@ -5,6 +5,6 @@
 
     public interface ILikeService
     {
-         Work ExtecuteLikeOrDislikeAction(LikeSubmitModel like, User CurrentUser);
+         Work ExtecuteLikeOrDislikeAction(LikeSubmitModel like, User currentUser);
     }
 }

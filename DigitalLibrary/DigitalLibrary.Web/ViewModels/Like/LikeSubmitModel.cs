@@ -4,6 +4,6 @@
     {
         public int WorkId { get; set; }
 
-        public string LikeState { get; set; } // like or dislike
+        public string LikeState { get; set; }
     }
 }

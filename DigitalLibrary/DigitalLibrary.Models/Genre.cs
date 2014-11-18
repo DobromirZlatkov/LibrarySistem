@@ -1,8 +1,9 @@
 ﻿namespace DigitalLibrary.Models
 {
-    using DigitalLibrary.Data.Contracts;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
+    using DigitalLibrary.Data.Contracts;
 
     public class Genre : DeletableEntity
     {
